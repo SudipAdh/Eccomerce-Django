@@ -20,8 +20,9 @@
 <div>
     <img class="thumbnail-each" src="{{product.image}}">
     <div class="box-element-each product-each">
-        <h6><strong>{{product.name}}</strong></h6>
-        <h6><strong>Rs {{product.price|floatformat:2}}</strong></h6>
+        <h6 class="name"><strong>{{product.name}}</strong></h6>
+        <br>
+        <h6 class="price">Rs {{product.price|floatformat:2}}</h6>
         <hr>
         <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add
             to Cart</button>
@@ -35,5 +36,12 @@
 
     </div>
 </div>
+<div class="images-each-extras">
+    <img class="thumbnail-each-extras" src="{{product.image_first}}">
+    <img class="thumbnail-each-extras" src="{{product.image_second}}">
+    <img class="thumbnail-each-extras" src="{{product.image_third}}">
+
+</div>
+
 
 {% endblock %}
