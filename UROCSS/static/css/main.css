@@ -1,5 +1,5 @@
 body{
-	background-color: hsl(0, 0%, 98%);
+	background-color: hsl(0, 0%, 90%);
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -7,15 +7,38 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .box-element{
-	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	box-shadow:hsl(0, 0%, 20%) 0 0 16px;
 	background-color: #fff;
 	border-radius: 4px;
 	padding: 10px;
+
+}
+.box-element-each{
+	box-shadow:hsl(0, 0%, 20%) 0 0 16px;
+	background-color:#fff;
+	border-radius: 4px;
+	padding: 10px;
+}
+
+.product-each{
+	border-radius: 0 0 4px 4px;
+	float:right;
+}
+.margin-adder{
+	margin-bottom:30px;
+	margin-top:30px;
 }
 
 .thumbnail{
 	width: 100%;
 	height: 200px;
+	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+}
+.thumbnail-each{
+	width: 400px;
+	height: 400px;
 	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
     -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
     box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);

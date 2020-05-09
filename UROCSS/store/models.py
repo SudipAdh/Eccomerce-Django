@@ -22,6 +22,12 @@ class Product(models.Model):
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
+    seller = models.CharField(max_length=100, null=True)
+    distance = models.CharField(max_length=5, null=True)
+    stock = models.IntegerField(default=0)
+    color = models.CharField(max_length=100, null=True)
+    description = models.CharField(max_length=200, null=True)
+    size = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return self.name
@@ -42,7 +48,10 @@ class Order(models.Model):
     transaction_id = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return str(self.transaction_id)
+        if self.transaction_id != None:
+            return str(self.transaction_id + "(" + str(self.date_ordered) + ")")
+        else:
+            return str(self.transaction_id)
 
     @property
     def shipping(self):
@@ -93,6 +102,8 @@ class ShippingAddress(models.Model):
     zipcode = models.CharField(max_length=200, null=True)
     country = models.CharField(max_length=40, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    phone_number = models.CharField(max_length=10, null=True)
+    total = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.order)
@@ -106,4 +117,24 @@ class OrderDeliveryStatus(models.Model):
     delivered = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.order)
+        if self.confirmed == True and self.delivered == True:
+            return str("Confirmed and Delivered= True | " + str(self.order))
+        elif self.confirmed == True and self.delivered == False:
+            return str("Confirmed True and Delivered False | " + str(self.order))
+        elif self.confirmed == False and self.delivered == False:
+            return str("New Order | " + str(self.order))
+        else:
+            return str("Not Possible Plz chech status")
+
+
+class PaymentInfo(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    address = models.CharField(max_length=200, null=True)
+    paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        if self.paid == False:
+            return str("New Order Not Paid | " + str(self.order))
+        else:
+            return str("Paid | " + str(self.order))
