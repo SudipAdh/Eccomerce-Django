@@ -49,9 +49,10 @@ h1,h2,h3,h4,h5,h6{
 	transition: .3s ease-in-out;
 }
 .margin-adder:hover{
-	text-decoration:none;
+	
 	-webkit-transform: scale(1.1);
 	transform: scale(1.1);
+	
 }
 .link:hover{
 	text-decoration: none;
@@ -67,8 +68,8 @@ h1,h2,h3,h4,h5,h6{
 	
 }
 .thumbnail-each{
-	width: 350px;
-	height: 350px;
+	width: 400px;
+	height: 300px;
 	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
     -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
     box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
@@ -83,8 +84,8 @@ h1,h2,h3,h4,h5,h6{
 	box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
 	-webkit-transform: scale(1);
 	transform: scale(1);
-	-webkit-transition: .3s ease-in-out;
-	transition: .3s ease-in-out;
+	-webkit-transition: .5s ease-in-out;
+	transition: .5s ease-in-out;
 }
 .thumbnail-each-extras:hover{
 	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
