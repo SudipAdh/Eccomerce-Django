@@ -1,5 +1,5 @@
 body{
-	background-color: hsl(0, 0%, 98%);
+	background-color: hsl(0, 0%, 90%);
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -7,19 +7,97 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .box-element{
-	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	/* box-shadow:hsl(0, 0%, 20%) 0 0 16px; */
 	background-color: #fff;
 	border-radius: 4px;
 	padding: 10px;
+
 }
+.box-element-each{
+	box-shadow:hsl(0, 0%, 20%) 0 0 16px;
+	background-color:#fff;
+	border-radius: 4px;
+	padding: 10px;
+}
+
+.product-each{
+	border-radius: 0 0 4px 4px;
+	float:right;
+}
+.price{
+	font-size: 18px;
+    color: #f57223;
+    letter-spacing: -.56px;
+    line-height: 14px;
+}
+.name{
+	height: 36px;
+    line-height: 18px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-bottom: 4px;
+	font-size: 17px;
+}
+.margin-adder{
+	margin-bottom:30px;
+	margin-top:30px;
+	-webkit-transform: scale(1);
+	transform: scale(1);
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+.margin-adder:hover{
+	text-decoration:none;
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
+.link:hover{
+	text-decoration: none;
+}
+
 
 .thumbnail{
 	width: 100%;
 	height: 200px;
 	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
     -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+	box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+	
+}
+.thumbnail-each{
+	width: 350px;
+	height: 350px;
+	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
     box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
 }
+.thumbnail-each-extras{
+	margin-top: 2%;
+	margin-right: 80px;
+	width: 100px;
+	height: 100px;
+	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+	box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+	-webkit-transform: scale(1);
+	transform: scale(1);
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+.thumbnail-each-extras:hover{
+	-webkit-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+    -moz-box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+	box-shadow: -1px -3px 5px -2px rgba(214,214,214,1);
+	-webkit-transform: scale(2.5);
+	transform: scale(2.5);
+	
+	
+	
+}
+
+
 
 .product{
 	border-radius: 0 0 4px 4px;

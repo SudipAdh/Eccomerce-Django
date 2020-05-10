@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 
@@ -159,7 +159,43 @@ def processOrder(request):
                 state=data["shipping"]["state"],
                 zipcode=data["shipping"]["zipcode"],
                 country=data["shipping"]["country"],
+                phone_number=data["shipping"]["phone_number"],
+                total=float(data["form"]["total"]),
+            )
+            OrderDeliveryStatus.objects.create(
+                order=order, customer=request.user, address=data["shipping"]["address"]
+            )
+            PaymentInfo.objects.create(
+                order=order, customer=request.user, address=data["shipping"]["address"]
             )
     else:
         print("user is not logged in")
     return JsonResponse("Payment complete", safe=False)
+
+
+def each_product(request, pk):
+    if pk:
+        order, created = Order.objects.get_or_create(
+            customer=request.user, complete=False
+        )
+        product = Product.objects.get(id=pk)
+
+        product = {
+            "name": product.name,
+            "price": product.price,
+            "image": product.imageUrl,
+            "image_first": product.image1.url,
+            "image_second": product.image2.url,
+            "image_third": product.image3.url,
+            "seller": product.seller,
+            "size": product.size,
+            "color": product.color,
+            "description": product.description,
+            "stock": product.stock,
+            "distance": product.distance,
+            "id": pk,
+        }
+        cartItems = order.get_cart_items
+
+    context = {"product": product, "cartItems": cartItems}
+    return render(request, "store/view_product.html", context)

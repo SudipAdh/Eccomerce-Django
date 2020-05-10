@@ -49,6 +49,13 @@
                         <input required class="form-control" type="text" name="country" placeholder="Country...">
                     </div>
 
+                    <div class="form-field">
+                        <input required class="form-control" type="number" maxlength="10" name="phone_number"
+                            placeholder="Phone Number...">
+                    </div>
+
+
+
 
 
                 </div>
@@ -79,7 +86,7 @@
                     <p>{{item.product.name}}</p>
                 </div>
                 <div style="flex:1">
-                    <p>${{item.product.price|floatformat:2}}</p>
+                    <p>Rs {{item.product.price|floatformat:2}}</p>
                 </div>
                 <div style="flex:1">
                     <p>x{{item.quantity}}</p>
@@ -87,7 +94,7 @@
             </div>
             {% endfor %}
             <h5>Items: {{order.get_cart_items}}</h5>
-            <h5>Total: ${{order.get_cart_total|floatformat:2}}</h5>
+            <h5>Total: Rs {{order.get_cart_total|floatformat:2}}</h5>
         </div>
     </div>
 
@@ -137,7 +144,8 @@
             'city': null,
             'state': null,
             'zipcode': null,
-            'country': null
+            'country': null,
+            'phone_number': null
         }
 
         if (shipping != 'False') {
@@ -146,11 +154,14 @@
             shippingInfo.state = form.state.value
             shippingInfo.zipcode = form.zipcode.value
             shippingInfo.country = form.country.value
+            shippingInfo.phone_number = form.phone_number.value
+            userFormData.total = total
         }
 
         if (user == "AnonymousUser") {
             userFormData.name = form.name.value
             userFormData.email = form.email.value
+            userFormData.total = total
         }
 
         console.log(userFormData)

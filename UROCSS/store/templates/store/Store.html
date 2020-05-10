@@ -13,22 +13,29 @@
     </ul>
 </div>
 
-{% endblock %}
+{% endblock login-logout %}
 {% block content %}
 
-<div class="row">
+<div class="row ">
     {% for product in products %}
-    <div class="col-lg-4">
-        <img class="thumbnail" src="{{product.imageUrl}}">
-        <div class="box-element product">
-            <h6><strong>{{product.name}}</strong></h6>
-            <hr>
-            <button data-product={{product.id}} data-action="add"
-                class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-            <a class="btn btn-outline-success" href="#"> View</a>
-            <h4 style="float:right;"><strong>${{product.price|floatformat:2}}</strong></h4>
+    <a class="link" href="{% url 'each_product'  pk=product.id %}">
+        <div class="col-lg-3 margin-adder">
+            <img class="thumbnail" src="{{product.imageUrl}}">
+            <div class="box-element product" id="each_product">
+                <h6 class="name"><strong></strong>{{product.name}}</strong></h6>
+                <br>
+                <h6 class="price">Rs {{product.price|floatformat:2}}</h6>
+                <hr>
+                <button data-product={{product.id}} data-action="add"
+                    class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+                <a href="{% url 'each_product'  pk=product.id %}">
+                    <button data-product={{product.name}} class="btn btn-outline-success view-cart">
+                        View
+                    </button>
+                </a>
+            </div>
         </div>
-    </div>
+    </a>
     {% endfor %}
 </div>
-{% endblock content%}
+{% endblock %}
