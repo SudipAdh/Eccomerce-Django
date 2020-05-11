@@ -51,7 +51,6 @@ def changePassword(request):
         if form.is_valid():
             form.save()
 
-            messages.success(request, "password was succesfully changed")
             login(request, form.user)
             return redirect("store")
 
