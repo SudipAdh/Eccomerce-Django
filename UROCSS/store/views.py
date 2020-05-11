@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.forms import inlineformset_factory
-from django.contrib.auth.forms import UserCreationForm
 
-from django.contrib.auth import authenticate, login, logout
+# from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 from django.contrib import messages
 
@@ -29,7 +30,7 @@ def loginPage(request):
                 login(request, user)
                 return redirect("store")
             else:
-                messages.info(request, "Username OR password is incorrect")
+                messages.info(request, "Username Or Password is incorrect")
 
         context = {}
         return render(request, "store/login.html", context)
@@ -37,7 +38,12 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect("login")
+    return redirect("store")
+
+
+@login_required(login_url="login")
+def changePassword(request):
+    pass
 
 
 def registerPage(request):
@@ -58,7 +64,6 @@ def registerPage(request):
         return render(request, "store/register.html", context)
 
 
-@login_required(login_url="login")
 def store(request):
     if request.user.is_authenticated:
         # customer = request.user
@@ -175,9 +180,15 @@ def processOrder(request):
 
 def each_product(request, pk):
     if pk:
-        order, created = Order.objects.get_or_create(
-            customer=request.user, complete=False
-        )
+        if request.user.is_authenticated:
+            order, created = Order.objects.get_or_create(
+                customer=request.user, complete=False
+            )
+            cartItems = order.get_cart_items
+        else:
+            order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+            cartItems = order["get_cart_items"]
+
         product = Product.objects.get(id=pk)
 
         product = {
@@ -195,7 +206,6 @@ def each_product(request, pk):
             "distance": product.distance,
             "id": pk,
         }
-        cartItems = order.get_cart_items
 
     context = {"product": product, "cartItems": cartItems}
     return render(request, "store/view_product.html", context)
