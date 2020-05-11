@@ -5,7 +5,7 @@ from django.forms import inlineformset_factory
 # from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
@@ -43,7 +43,20 @@ def logoutUser(request):
 
 @login_required(login_url="login")
 def changePassword(request):
-    pass
+    order, created = Order.objects.get_or_create(customer=request.user, complete=False)
+    cartItems = order.get_cart_items
+    form = PasswordChangeForm(user=request.user)
+    if request.method == "POST":
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, "password was succesfully changed")
+            login(request, form.user)
+            return redirect("store")
+
+    context = {"form": form, "cartItems": cartItems}
+    return render(request, "store/change_password.html", context)
 
 
 def registerPage(request):
