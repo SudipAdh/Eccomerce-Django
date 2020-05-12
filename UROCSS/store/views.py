@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.forms import inlineformset_factory
-
+from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 
 # from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
@@ -100,7 +100,9 @@ def registerPage(request):
                 context = {}
                 return render(request, "store/signup_email_sent.html", context)
             else:
-                return redirect("register")
+                context = {"error": form.errors, "form": CreateUserForm()}
+                return render(request, "store/register.html", context)
+
         else:
             context = {"form": form}
             return render(request, "store/register.html", context)
