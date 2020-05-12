@@ -2,11 +2,18 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.forms import inlineformset_factory
 
+from django.utils.encoding import force_bytes, force_text
+
 # from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.template.loader import render_to_string
 
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
+
+from django.core.mail import EmailMessage
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from django.contrib.auth.decorators import login_required
 import json
@@ -14,6 +21,7 @@ import datetime
 
 from .models import *
 from .forms import CreateUserForm
+from .tokens import account_activation_token
 
 
 def loginPage(request):
@@ -65,15 +73,55 @@ def registerPage(request):
         form = CreateUserForm()
         if request.method == "POST":
             form = CreateUserForm(request.POST)
+
             if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get("username")
-                messages.success(request, "Account was created for " + user)
+                username = request.POST.get("username")
+                email = request.POST.get("email")
+                password = request.POST.get("password2")
+                user = User.objects.create_user(username=username, email=email)
+                user.set_password(password)
+                user.is_active = False
+                user.save()
+                current_site = get_current_site(request)
+                mail_subject = "Activate Your URCOSS account."
+                message = render_to_string(
+                    "store/acc_active_email.html",
+                    {
+                        "user": user,
+                        "domain": current_site.domain,
+                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                        "token": account_activation_token.make_token(user),
+                    },
+                )
+                print(user)
+                to_email = form.cleaned_data.get("email")
+                email = EmailMessage(mail_subject, message, to=[to_email])
+                email.send()
+                context = {}
+                return render(request, "store/signup_email_sent.html", context)
+            else:
+                return redirect("register")
+        else:
+            context = {"form": form}
+            return render(request, "store/register.html", context)
 
-                return redirect("login")
 
-        context = {"form": form}
-        return render(request, "store/register.html", context)
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return redirect("login")
+
+    else:
+        context = {}
+        return render(request, "store/signup_failed.html", context)
 
 
 def store(request):
@@ -221,3 +269,22 @@ def each_product(request, pk):
 
     context = {"product": product, "cartItems": cartItems}
     return render(request, "store/view_product.html", context)
+
+
+def search_products(request):
+    if request.method == "GET":
+        search_product_name = request.GET.get("search_product_name")
+        products = Product.objects.filter(
+            search_tags__icontains=search_product_name
+        ).order_by("created_at")
+
+        if request.user.is_authenticated:
+            order, created = Order.objects.get_or_create(
+                customer=request.user, complete=False
+            )
+            cartItems = order.get_cart_items
+        else:
+            order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+            cartItems = order["get_cart_items"]
+        context = {"products": products, "cartItems": cartItems}
+        return render(request, "store/Store.html", context)

@@ -1,0 +1,7 @@
+{% autoescape off %}
+Hi {{ user.username }}, Please Don't share this link to anyother person for your own security purpose!
+
+Please click on the link to confirm your registration for UROCSS,
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+Thank You!
+{% endautoescape %}

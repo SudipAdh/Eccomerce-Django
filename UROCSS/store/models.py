@@ -32,6 +32,8 @@ class Product(models.Model):
     color = models.CharField(max_length=100, null=True)
     description = models.CharField(max_length=200, null=True)
     size = models.CharField(max_length=100, null=True)
+    search_tags = models.CharField(max_length=100, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

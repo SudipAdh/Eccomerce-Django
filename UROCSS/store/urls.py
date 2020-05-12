@@ -7,6 +7,11 @@ urlpatterns = [
     path("login/", views.loginPage, name="login"),
     path("logout/", views.logoutUser, name="logout"),
     path("register/", views.registerPage, name="register"),
+    re_path(
+        r"^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",
+        views.activate,
+        name="activate",
+    ),
     path("change_password/", views.changePassword, name="change_password"),
     path(
         "reset_password/",
@@ -39,6 +44,7 @@ urlpatterns = [
     path("update_item/", views.updateItem, name="update_item"),
     path("process_order/", views.processOrder, name="process_order"),
     path("each_product/<int:pk>/", views.each_product, name="each_product"),
+    path("search_products/", views.search_products, name="search_products"),
 ]
 # 1->original form submit email form
 # 2->success email sent success message
