@@ -136,7 +136,7 @@ def store(request):
         items = []
         order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
         cartItems = order["get_cart_items"]
-    products = Product.objects.all()
+    products = Product.objects.all().order_by("-created_at")
     context = {"products": products, "cartItems": cartItems}
     return render(request, "store/Store.html", context)
 
@@ -276,7 +276,7 @@ def search_products(request):
         search_product_name = request.GET.get("search_product_name")
         products = Product.objects.filter(
             search_tags__icontains=search_product_name
-        ).order_by("created_at")
+        ).order_by("-created_at")
 
         if request.user.is_authenticated:
             order, created = Order.objects.get_or_create(
