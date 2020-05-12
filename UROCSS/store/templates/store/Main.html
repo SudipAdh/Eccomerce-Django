@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
     <script type="text/javascript">
         var user = '{{request.user}}'
 
@@ -49,14 +49,15 @@
                     class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">setting</button>
                 <div class="dropdown-menu">
 
-                    <a class="dropdown-item" href="#">logout</a>
-                    <a class="dropdown-item" href="#">profile</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
                     <a class="dropdown-item" href="#">#</a>
 
                 </div>
 
             </div>
             {% else %}
+
 
             {% endif %}
             {% endblock %}
