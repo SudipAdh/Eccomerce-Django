@@ -17,7 +17,7 @@ body,
         .user_card {
             width: 350px;
             margin:50px 0;
-            background: #0f1615;
+            background: rgba(0,0,0,0.6);
             position: relative;
             display: flex;
             justify-content: center;
@@ -27,7 +27,28 @@ body,
             -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             border-radius: 5px;
+            box-sizing: rgba(0,0,0,0.6);
 
+
+        }
+        .user_card h3{
+            margin: 0 0 1.875rem;
+            padding: 0;
+            color: #fff;
+            text-align: center;
+        }
+        .user_card .input-group {
+            position: relative;
+        }
+        .user_card .input-group input{
+            width: 100%;
+            padding: 0.625rem 0;
+            font-size: 1rem;
+            color: #fff;
+            border:none;
+            border-bottom: 0.065rem solid #fff;
+            outline: none;
+            background: transparent;
         }
 
         .form_container {
