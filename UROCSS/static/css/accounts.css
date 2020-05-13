@@ -1,16 +1,24 @@
 body,
         html {
-            margin: 0;
-            padding: 0;
+           margin: 0;
+           padding: 0;
             height: 100%;
-            background: #7abecc !important;
+            
+        }
+        
+        .bg-img{
+            background-image: url("../../static/images/img.jpg");
+            min-height: 664px;
+            background-position: center;
+            background-size: cover;
+            position: relative;
         }
 
         .user_card {
             width: 350px;
             margin-top: auto;
             margin-bottom: auto;
-            background: #74cfbf;
+            background: #0f1615;
             position: relative;
             display: flex;
             justify-content: center;
@@ -70,4 +78,7 @@ body,
         #logo {
             height: 100px;
             width: 100px;
+        }
+        .text-color{
+            color: #fff;
         }

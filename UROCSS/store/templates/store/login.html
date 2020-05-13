@@ -14,6 +14,7 @@
 </head>
 
 <body>
+    <div class="bg-img">
     <div class="container h-100">
         <div class="d-flex justify-content-center h-100">
             <div class="user_card">
@@ -46,12 +47,13 @@
                     </form>
 
                 </div>
+             
 
                 {% for message in messages %}
                 <p id="messages">{{message}}</p>
                 {% endfor %}
 
-                <div class="mt-4">
+                <div class="mt-4 text-color">
                     <div class="d-flex justify-content-center links">
                         Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
                     </div>
@@ -63,6 +65,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </body>
 
