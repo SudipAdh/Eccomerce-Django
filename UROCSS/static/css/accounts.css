@@ -16,8 +16,7 @@ body,
 
         .user_card {
             width: 350px;
-            margin-top: auto;
-            margin-bottom: auto;
+            margin:50px 0;
             background: #0f1615;
             position: relative;
             display: flex;
