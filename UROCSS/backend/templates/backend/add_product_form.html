@@ -1,0 +1,138 @@
+{% extends 'backend/backend_main.html' %}
+{% block main %}
+
+<div class="col-lg-7">
+    <div class="box-element" id="form-wrapper">
+        <form method="POST" action="" id="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-field">
+                <h6>Product Name</h6>{{form.name}}
+
+            </div>
+            <div class="form-field">
+                <h6>Product Price</h6>
+                {{form.price}}
+            </div>
+
+
+            <br>
+            <h6>Is Digital</h6>
+            <div class="form-field">
+                {{form.digital}}
+            </div>
+            <br>
+
+            <div class="form-field">
+                <h6>Main Image</h6>
+                {{form.image}}
+            </div>
+            <div class="form-field">
+                <h6>Image</h6>
+                {{form.image1}}
+            </div>
+
+            <div class="form-field">
+                <h6>Image</h6>
+                {{form.image2}}
+            </div>
+            <div class="form-field">
+                <h6>Image</h6>
+                {{form.image3}}
+            </div>
+
+            <div class="form-field">
+                <h6>Seller</h6>
+                {{form.seller}}
+            </div>
+            <div>
+                <div class="form-field">
+                    <h6>Distance</h6>
+                    {{form.distance}}
+                </div>
+                <div class="form-field">
+                    <h6>In Stock</h6>
+                    {{form.stock}}
+                </div>
+                <div class="form-field">
+                    <h6>Color</h6>
+                    {{form.color}}
+                </div>
+
+                <div class="form-field">
+                    <h6>Size</h6>
+                    {{form.size}}
+                </div>
+                <div class="form-field">
+                    <h6>Search Tags</h6>
+                    {{form.search_tags}}
+                </div>
+
+                <div style="display:inline-block;" class="description">
+                    <div class="form-field">
+                        <h6>Description</h6>
+                        {{form.description}}
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            <input id="form-button" type="submit" value="Add Product" class="btn btn-success btn-block">
+
+        </form>
+
+    </div>
+</div>
+<!-- <script type="text/javascript">
+
+    document.getElementById('form-button').addEventListener('click', function (e) {
+        addProduct()
+    })
+    function addProduct() {
+        console.log("Product add button is clicked.")
+        var productInfo = {
+            'product_name': form.name.value,
+            'product_price': form.price.value,
+            'product_digital': form.digital.value,
+            'product_main_image': form.image.value,
+            'product_image_first': form.image1.value,
+            'product_image_second': form.image2.value,
+            'product_image_third': form.image3.value,
+            'product_seller': form.seller.value,
+            'product_distance': form.distance.value,
+            'product_stock': form.stock.value,
+            'product_color': form.color.value,
+            'product_description': form.description.value,
+            'product_size': form.size.value,
+            'product_search_tags': form.search_tags.value,
+        }
+
+        console.log(productInfo)
+        var url = '/backend/add_product/'
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+
+            },
+            body: JSON.stringify({
+
+                'productInfo': productInfo
+            })
+        })
+            .then((response) => {
+                return response.json()
+            })
+
+            .then((data) => {
+                console.log("Success:", data);
+                alert('Product is Added');
+                window.location.href = "{% url 'add_product_form' %}"
+
+            })
+
+    }
+
+
+</script> -->
+{% endblock %}
