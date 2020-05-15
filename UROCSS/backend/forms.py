@@ -17,7 +17,3 @@ class AddProductForm(ModelForm):
 		fields = ["name","price","digital", "image","image1","image2","image3","seller","distance","stock","color","description","size","search_tags"]
 
 
-# class CustomUserChangeFrom(UserChangeForm):
-#     class Meta:
-#         model = CustomUser
-#         fields = ("username", "email")

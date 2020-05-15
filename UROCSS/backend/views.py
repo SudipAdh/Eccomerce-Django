@@ -56,12 +56,56 @@ def backend_main(request):
 
 @login_required(login_url="backend_login")
 def add_product_form(request):
-    form = AddProductForm()
+    form_clear = AddProductForm()
 
     if request.method == "POST":
         form = AddProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            context = {"form": form_clear}
+            return render(request, "backend/add_product_form.html", context)
 
-    context = {"form": form}
+    context = {"form": form_clear}
     return render(request, "backend/add_product_form.html", context)
+
+
+@login_required(login_url="backend_login")
+def view_order_detail(request, id):
+    id = float(id)
+    order = store_models.Order.objects.get(transaction_id=id)
+    order_items = order.orderitem_set.all()
+    shipping_info = order.shippingaddress_set.all()
+    order_delivery_status_data = order.orderdeliverystatus_set.all()
+    order_payment_status_data = order.paymentinfo_set.all()
+    context = {
+        "order_items": order_items,
+        "shipping_infos": shipping_info,
+        "order_delivery_statuses": order_delivery_status_data,
+        "transaction_id": str(id),
+        "order_payment_statuses": order_payment_status_data,
+    }
+    return render(request, "backend/view_order_detail.html", context)
+
+
+@login_required(login_url="backend_login")
+def order_delivery_status(request, id):
+    if request.method == "POST":
+        id = float(id)
+        confirm = request.POST["confirm"]
+        deliver = request.POST["deliver"]
+        payment = request.POST["payment"]
+        order = store_models.Order.objects.get(transaction_id=id)
+        order_items = order.orderitem_set.all()
+        shipping_info = order.shippingaddress_set.all()
+        order_delivery_status_data = order.orderdeliverystatus_set.all()
+        order_payment_status_data = order.paymentinfo_set.all()
+        order_delivery_status_data.update(confirmed=confirm, delivered=deliver)
+        order_payment_status_data.update(paid=payment)
+        context = {
+            "order_items": order_items,
+            "shipping_infos": shipping_info,
+            "order_delivery_statuses": order_delivery_status_data,
+            "transaction_id": str(id),
+            "order_payment_statuses": order_payment_status_data,
+        }
+        return render(request, "backend/view_order_detail.html", context)
