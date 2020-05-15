@@ -49,6 +49,7 @@ def backend_login(request):
 @login_required(login_url="backend_login")
 def backend_main(request):
     orders = store_models.Order.objects.all()
+
     context = {"orders": orders}
     return render(request, "backend/backend_main.html", context)
 

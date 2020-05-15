@@ -51,7 +51,7 @@ def logoutUser(request):
 
 @login_required(login_url="login")
 def changePassword(request):
-    order, created = Order.objects.get_or_create(customer=request.user, complete=False)
+    order = Order.objects.get(customer=request.user, complete=False)
     cartItems = order.get_cart_items
     form = PasswordChangeForm(user=request.user)
     if request.method == "POST":
@@ -129,11 +129,14 @@ def activate(request, uidb64, token):
 def store(request):
     if request.user.is_authenticated:
         # customer = request.user
-        order, created = Order.objects.get_or_create(
-            customer=request.user, complete=False
-        )
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_items
+        try:
+            order = Order.objects.get(customer=request.user, complete=False)
+            items = order.orderitem_set.all()
+            cartItems = order.get_cart_items
+        except:
+            order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+            cartItems = order["get_cart_items"]
+
     else:
         items = []
         order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
@@ -147,9 +150,14 @@ def store(request):
 def cart(request):
     if request.user.is_authenticated:
         # customer = request.user
-        order = Order.objects.get(customer=request.user, complete=False)
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_items
+        try:
+            order = Order.objects.get(customer=request.user, complete=False)
+            items = order.orderitem_set.all()
+            cartItems = order.get_cart_items
+        except:
+            items = []
+            order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+            cartItems = order["get_cart_items"]
     else:
         items = []
         order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
@@ -163,9 +171,15 @@ def cart(request):
 def Checkout(request):
     if request.user.is_authenticated:
         # customer = request.user
-        order = Order.objects.get(customer=request.user, complete=False)
-        items = order.orderitem_set.all()
-        cartItems = order.get_cart_items
+        try:
+            order = Order.objects.get(customer=request.user, complete=False)
+            items = order.orderitem_set.all()
+            cartItems = order.get_cart_items
+        except:
+            items = []
+            order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+            cartItems = order["get_cart_items"]
+
     else:
         items = []
         order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
@@ -186,8 +200,6 @@ def updateItem(request):
     order, created = Order.objects.get_or_create(customer=request.user, complete=False)
 
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-    if created == True:
-        order.save()
 
     if action == "add":
         orderItem.quantity = orderItem.quantity + 1
@@ -241,8 +253,13 @@ def processOrder(request):
 def each_product(request, pk):
     if pk:
         if request.user.is_authenticated:
-            order = Order.objects.get(customer=request.user, complete=False)
-            cartItems = order.get_cart_items
+            try:
+                order = Order.objects.get(customer=request.user, complete=False)
+                items = order.orderitem_set.all()
+                cartItems = order.get_cart_items
+            except:
+                order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+                cartItems = order["get_cart_items"]
         else:
             order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
             cartItems = order["get_cart_items"]
@@ -277,8 +294,13 @@ def search_products(request):
         ).order_by("-created_at")
 
         if request.user.is_authenticated:
-            order = Order.objects.get(customer=request.user, complete=False)
-            cartItems = order.get_cart_items
+            try:
+                order = Order.objects.get(customer=request.user, complete=False)
+                items = order.orderitem_set.all()
+                cartItems = order.get_cart_items
+            except:
+                order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+                cartItems = order["get_cart_items"]
         else:
             order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
             cartItems = order["get_cart_items"]
