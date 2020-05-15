@@ -102,12 +102,31 @@
     <div class="main">
         <main class="page-content pt-2 main">
             <div id="overlay" class="overlay">
-                <div class="container-fluid p-5">
-                    {% block main %}
+                <div class="container-fluid p-5"></div>
+                <div class="row ">
+                    {% for order in orders %}
 
-                    {% endblock %}
+                    <div class="col-lg-6 margin-adder">
+
+                        <div class="box-element product" id="each_product">
+                            <h6 class="name"><strong></strong>{{order.transaction_id}}</strong></h6>
+                            <br>
+                            <h6 class="price">{{order.complete}}</h6>
+                            <hr>
+                            <h6 class="price">{{order.customer}}</h6>
+                            <hr>
+                            <h6 class="price">{{order.date_ordered}}</h6>
+
+                            <a href="#">
+                                <button data-product="" class="btn btn-outline-success view-cart">
+                                    View
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+
+                    {% endfor %}
                 </div>
-
 
             </div>
     </div>
@@ -132,7 +151,7 @@
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-tachometer-alt"></i>
-                                <span>Add Product</span>
+                                <span>Product</span>
                                 <span class="badge badge-pill badge-danger">New</span>
                             </a>
                             <div class="sidebar-submenu">
@@ -143,7 +162,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">Dashboard 2</a>
+                                        <a href="#">Delete Product</a>
                                     </li>
                                     <li>
                                         <a href="#">Dashboard 3</a>

@@ -48,7 +48,8 @@ def backend_login(request):
 
 @login_required(login_url="backend_login")
 def backend_main(request):
-    context = {}
+    orders = store_models.Order.objects.all()
+    context = {"orders": orders}
     return render(request, "backend/backend_main.html", context)
 
 
@@ -63,29 +64,3 @@ def add_product_form(request):
 
     context = {"form": form}
     return render(request, "backend/add_product_form.html", context)
-
-
-# def add_product(request):
-
-#     data = json.loads(request.body)
-#     if request.user.is_authenticated and request.user.is_staff:
-#         store_models.Product.objects.create(
-#             name=data["productInfo"]["product_name"],
-#             price=data["productInfo"]["product_price"],
-#             digital=string.capwords(data["productInfo"]["product_digital"]),
-#             image=data["productInfo"]["product_main_image"],
-#             image1=data["productInfo"]["product_image_first"],
-#             image2=data["productInfo"]["product_image_second"],
-#             image3=data["productInfo"]["product_image_third"],
-#             seller=data["productInfo"]["product_seller"],
-#             distance=data["productInfo"]["product_distance"],
-#             stock=data["productInfo"]["product_stock"],
-#             color=data["productInfo"]["product_color"],
-#             description=data["productInfo"]["product_description"],
-#             size=data["productInfo"]["product_size"],
-#             search_tags=data["productInfo"]["product_search_tags"],
-#         )
-
-#     else:
-#         print("LEAVE THIS")
-#     return JsonResponse("Product Added", safe=False)

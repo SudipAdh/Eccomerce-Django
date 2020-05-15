@@ -147,9 +147,7 @@ def store(request):
 def cart(request):
     if request.user.is_authenticated:
         # customer = request.user
-        order, created = Order.objects.get_or_create(
-            customer=request.user, complete=False
-        )
+        order = Order.objects.get(customer=request.user, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:
@@ -165,9 +163,7 @@ def cart(request):
 def Checkout(request):
     if request.user.is_authenticated:
         # customer = request.user
-        order, created = Order.objects.get_or_create(
-            customer=request.user, complete=False
-        )
+        order = Order.objects.get(customer=request.user, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:
@@ -179,6 +175,7 @@ def Checkout(request):
 
 
 def updateItem(request):
+
     data = json.loads(request.body)
     productId = data["productId"]
     action = data["action"]
@@ -189,12 +186,13 @@ def updateItem(request):
     order, created = Order.objects.get_or_create(customer=request.user, complete=False)
 
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+    if created == True:
+        order.save()
 
     if action == "add":
         orderItem.quantity = orderItem.quantity + 1
     elif action == "remove":
         orderItem.quantity = orderItem.quantity - 1
-
     orderItem.save()
 
     if orderItem.quantity <= 0:
@@ -208,15 +206,14 @@ def processOrder(request):
     data = json.loads(request.body)
     if request.user.is_authenticated:
 
-        order, created = Order.objects.get_or_create(
-            customer=request.user, complete=False
-        )
+        order = Order.objects.get(customer=request.user, complete=False)
+
         total = float(data["form"]["total"])
         order.transaction_id = transaction_id
 
         if total == order.get_cart_total:
             order.complete = True
-        order.save()
+            order.save()
         if order.shipping == True:
             ShippingAddress.objects.create(
                 customer=request.user,
@@ -235,6 +232,7 @@ def processOrder(request):
             PaymentInfo.objects.create(
                 order=order, customer=request.user, address=data["shipping"]["address"]
             )
+
     else:
         print("user is not logged in")
     return JsonResponse("Payment complete", safe=False)
@@ -243,9 +241,7 @@ def processOrder(request):
 def each_product(request, pk):
     if pk:
         if request.user.is_authenticated:
-            order, created = Order.objects.get_or_create(
-                customer=request.user, complete=False
-            )
+            order = Order.objects.get(customer=request.user, complete=False)
             cartItems = order.get_cart_items
         else:
             order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
@@ -281,9 +277,7 @@ def search_products(request):
         ).order_by("-created_at")
 
         if request.user.is_authenticated:
-            order, created = Order.objects.get_or_create(
-                customer=request.user, complete=False
-            )
+            order = Order.objects.get(customer=request.user, complete=False)
             cartItems = order.get_cart_items
         else:
             order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
