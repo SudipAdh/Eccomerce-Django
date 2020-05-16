@@ -1,0 +1,86 @@
+{% extends 'backend/backend_main.html' %}
+{% block main %}
+
+<div class="col-lg-7">
+    <div class="box-element" id="form-wrapper">
+        <form method="POST" action="{% url 'order_delivery_status' %}" id="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-field">
+                <h6>Product Name</h6>{{form.name}}
+
+            </div>
+            <div class="form-field">
+                <h6>Product Price</h6>
+                {{form.price}}
+            </div>
+
+
+            <br>
+            <h6>Is Digital</h6>
+            <div class="form-field">
+                {{form.digital}}
+            </div>
+            <br>
+
+            <div class="form-field">
+                <h6>Main Image</h6>
+                {{form.image}}
+            </div>
+            <div class="form-field">
+                <h6>Image</h6>
+                {{form.image1}}
+            </div>
+
+            <div class="form-field">
+                <h6>Image</h6>
+                {{form.image2}}
+            </div>
+            <div class="form-field">
+                <h6>Image</h6>
+                {{form.image3}}
+            </div>
+
+            <div class="form-field">
+                <h6>Seller</h6>
+                {{form.seller}}
+            </div>
+            <div>
+                <div class="form-field">
+                    <h6>Distance</h6>
+                    {{form.distance}}
+                </div>
+                <div class="form-field">
+                    <h6>In Stock</h6>
+                    {{form.stock}}
+                </div>
+                <div class="form-field">
+                    <h6>Color</h6>
+                    {{form.color}}
+                </div>
+
+                <div class="form-field">
+                    <h6>Size</h6>
+                    {{form.size}}
+                </div>
+                <div class="form-field">
+                    <h6>Search Tags</h6>
+                    {{form.search_tags}}
+                </div>
+
+                <div style="display:inline-block;" class="description">
+                    <div class="form-field">
+                        <h6>Description</h6>
+                        {{form.description}}
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            <input id="form-button" type="submit" value="Add Product" class="btn btn-success btn-block">
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

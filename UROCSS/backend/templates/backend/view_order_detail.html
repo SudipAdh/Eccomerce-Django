@@ -1,0 +1,107 @@
+{% extends 'backend/backend_main.html' %}
+{% block main %}
+<h4>Items:</h4>
+<div class="row">
+
+    {% for order_item in order_items %}
+    <div class=" col-lg-6 margin-adder">
+
+        <div class="box-element-order product" id="each_order">
+
+            <h6 class="price">Name: {{order_item.product}}</h6>
+            <h6 class="price">Quantity: {{order_item.quantity}}</h6>
+
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+<h2>Shipping Detail:</h2>
+<div class="row">
+    {% for shipping_info in shipping_infos %}
+    <div class=" col-lg-6 margin-adder">
+
+        <div class="box-element-order product" id="each_order">
+            <h6 class="price">Customer Name: {{shipping_info.customer}}</h6>
+
+            <h6 class="price">Phone Number: {{shipping_info.phone_number}}</h6>
+            <h6 class="price">Address :{{shipping_info.address}}</h6>
+            <h6 class="price">City :{{shipping_info.city}}</h6>
+            <h6 class="price">state: {{shipping_info.state}}</h6>
+            <h6 class="price">Zipcode: {{shipping_info.zipcode}}</h6>
+            <h6 class="price">Date Ordered: {{shipping_info.date_added}}</h6>
+            <h6 class="price">Total: {{shipping_info.total}}</h6>
+
+        </div>
+
+    </div>
+    {% endfor %}
+    {% for order_delivery_status in order_delivery_statuses %}
+
+    <div class=" col-lg-6 margin-adder">
+        <h4>Confirm And Delivered Status:</h4>
+        <div class="box-element-order product" id="each_order">
+            <h6 class="price">Confimed: {{order_delivery_status.confirmed}}</h6>
+
+            <h6 class="price">Delivered: {{order_delivery_status.delivered}}</h6>
+
+
+
+        </div>
+    </div>
+    {% endfor %}
+    {% for order_payment_status in order_payment_statuses %}
+
+    <div class=" col-lg-6 margin-adder">
+        <h4>Paid and Unpaid Status:</h4>
+        <div class="box-element-order product" id="each_order">
+            <h6 class="price">Paid: {{order_payment_status.paid}}</h6>
+
+
+
+
+
+        </div>
+    </div>
+    {% endfor %}
+
+
+</div>
+
+<div class="row">
+
+
+    <div class=" col-lg-6 margin-adder">
+        <h3>Set Delivery Status:</h3>
+        <div class="box-element product" id="each_order">
+            <form action="{% url 'order_delivery_status' id=transaction_id %}" method="POST"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <h6 class=" price">Confirm</h6>
+                <div class="form-field">
+                    True:<input type="radio" name="confirm" value="True">
+                    False:<input type="radio" name="confirm" value="False">
+                </div>
+                <h6 class="price">Deliver</h6>
+                <div class="form-field">
+                    True:<input required type="radio" name="deliver" value="True">
+                    False:<input required type="radio" name="deliver" value="False">
+                </div>
+                <h6 class=" price">Paid</h6>
+                <div class="form-field">
+                    True:<input type="radio" name="payment" value="True">
+                    False:<input type="radio" name="payment" value="False">
+                </div>
+
+                <input id="form-button" type="submit" value="Set" class="btn btn-success btn-block">
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+
+</div>
+{% endblock %}

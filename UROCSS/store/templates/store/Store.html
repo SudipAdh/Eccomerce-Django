@@ -25,22 +25,23 @@
     <a class="link" href="{% url 'each_product'  pk=product.id %}">
         <div class="col-lg-3 margin-adder">
             <img class="thumbnail" src="{{product.imageUrl}}">
-            <div class="box-element product" id="each_product">
-                <h6 class="name"><strong></strong>{{product.name}}</strong></h6>
-                <br>
-                <h6 class="price">Rs {{product.price|floatformat:2}}</h6>
-                <hr>
-
-                <button data-product={{product.id}} data-action="add"
-                    class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-                <a href="{% url 'each_product'  pk=product.id %}">
-                    <button data-product={{product.name}} class="btn btn-outline-success view-cart">
-                        View
-                    </button>
-                </a>
-            </div>
-        </div>
     </a>
-    {% endfor %}
+    <div class="box-element product" id="each_product">
+        <h6 class="name"><strong></strong>{{product.name}}</strong></h6>
+        <br>
+        <h6 class="price">Rs {{product.price|floatformat:2}}</h6>
+        <hr>
+
+        <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add
+            to Cart</button>
+        <a href="{% url 'each_product'  pk=product.id %}">
+            <button data-product={{product.name}} class="btn btn-outline-success view-cart">
+                View
+            </button>
+        </a>
+    </div>
+</div>
+
+{% endfor %}
 </div>
 {% endblock %}
