@@ -3,6 +3,7 @@ body,
            margin: 0;
            padding: 0;
             height: 100%;
+            background-color: rgba(0,0,0,0.6);
             
         }
         
@@ -101,4 +102,19 @@ body,
         }
         .text-color{
             color: #fff;
+        }
+        
+        .box{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 25rem;
+            padding: 2.5rem;
+            box-sizing: rgba(0,0,0.6);
+            background: rgba(177, 131, 131, 0.6);
+            border-radius: 0.625rem;
+        }
+        .alert{
+            background-color: rgb(63, 6, 6);
         }
