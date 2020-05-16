@@ -306,3 +306,49 @@ def search_products(request):
             cartItems = order["get_cart_items"]
         context = {"products": products, "cartItems": cartItems}
         return render(request, "store/Store.html", context)
+
+
+@login_required(login_url="login")
+def order_status(request):
+    if request.user.is_authenticated:
+        try:
+            order_c = Order.objects.get(customer=request.user, complete=False)
+
+            cartItems = order_c.get_cart_items
+        except:
+            order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+            cartItems = order["get_cart_items"]
+    else:
+        order_c = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+        cartItems = order_c["get_cart_items"]
+    orders = Order.objects.filter(customer=request.user, complete=True)
+
+    context = {"orders": orders, "cartItems": cartItems}
+    return render(request, "store/order_status.html", context)
+
+
+@login_required(login_url="login")
+def view_order_detail_user(request, id):
+    orders = Order.objects.get(transaction_id=id)
+    order_items = orders.orderitem_set.all()
+    order_delivery_status = orders.orderdeliverystatus_set.all()
+    order_payment_status = orders.paymentinfo_set.all()
+    if request.user.is_authenticated:
+        try:
+            order_c = Order.objects.get(customer=request.user, complete=False)
+
+            cartItems = order_c.get_cart_items
+        except:
+            order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+            cartItems = order["get_cart_items"]
+    else:
+        order_c = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+        cartItems = order_c["get_cart_items"]
+    context = {
+        "order_items": order_items,
+        "order_delivery_statuses": order_delivery_status,
+        "order_payment_statuses": order_payment_status,
+        "cartItems": cartItems,
+    }
+    return render(request, "store/order_detail_user.html", context)
+

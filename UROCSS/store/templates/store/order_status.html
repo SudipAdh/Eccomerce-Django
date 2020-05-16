@@ -22,10 +22,8 @@
 {% endblock %}
 {% block content %}
 <div class="row">
+    {% if orders %}
     {% for order in orders %}
-    {% if order.tansaction_id == "NULL" %}
-    <h1>No orders made yet</h1>
-    {% else %}
 
     <div class=" col-lg-12 margin-adder">
         <a class="link" href="{% url 'view_order_detail_user' id=order.transaction_id %}">
@@ -37,8 +35,12 @@
             </div>
         </a>
     </div>
-    {% endif %}
+
     {% endfor %}
+    {% else %}
+    <h1>You have not made any orders yet, Kindly make one!</h1>
+    {% endif %}
+
 
 </div>
 {% endblock %}

@@ -12,7 +12,7 @@ urlpatterns = [
         name="view_order_detail",
     ),
     path(
-        "order_delivery_status/<str:id>/",
+        "order_delivery_status/<str:id>",
         views.order_delivery_status,
         name="order_delivery_status",
     ),

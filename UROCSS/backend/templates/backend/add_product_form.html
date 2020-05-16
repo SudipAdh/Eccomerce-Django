@@ -3,7 +3,7 @@
 
 <div class="col-lg-7">
     <div class="box-element" id="form-wrapper">
-        <form method="POST" action="{% url 'order_delivery_status' %}" id="form" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'add_product_form' %}" id="form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-field">
                 <h6>Product Name</h6>{{form.name}}

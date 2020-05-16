@@ -45,6 +45,12 @@ urlpatterns = [
     path("process_order/", views.processOrder, name="process_order"),
     path("each_product/<int:pk>/", views.each_product, name="each_product"),
     path("search_products/", views.search_products, name="search_products"),
+    path("order_status/", views.order_status, name="order_status"),
+    path(
+        "view_order_detail_user/<str:id>",
+        views.view_order_detail_user,
+        name="view_order_detail_user",
+    ),
 ]
 # 1->original form submit email form
 # 2->success email sent success message

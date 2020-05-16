@@ -21,12 +21,12 @@
 
 {% endblock login-logout %}
 {% block content %}
-<h4>Your Orders:</h4>
+
 <div class="row">
 
     {% for order_item in order_items %}
     <div class=" col-lg-6 margin-adder">
-
+        <h4>Your Orders:</h4>
         <div class="box-element-order product" id="each_order">
 
             <h6 class="price">Name: {{order_item.product}}</h6>
@@ -36,34 +36,34 @@
 
     </div>
     {% endfor %}
-</div>
-{% for order_delivery_status in order_delivery_statuses %}
-<div class=" col-lg-6 margin-adder">
-    <h4>Confirm And Delivered Status:</h4>
-    <div class="box-element-order product" id="each_order">
-        <h6 class="price">Confimed: {{order_delivery_status.confirmed}}</h6>
 
-        <h6 class="price">Delivered: {{order_delivery_status.delivered}}</h6>
+    {% for order_delivery_status in order_delivery_statuses %}
+    <div class=" col-lg-6 margin-adder">
+        <h4>Confirm And Delivered Status:</h4>
+        <div class="box-element-order product" id="each_order">
+            <h6 class="price">Confimed: {{order_delivery_status.confirmed}}</h6>
+
+            <h6 class="price">Delivered: {{order_delivery_status.delivered}}</h6>
 
 
 
+        </div>
     </div>
-</div>
-{% endfor %}
-{% for order_payment_status in order_payment_statuses %}
+    {% endfor %}
+    {% for order_payment_status in order_payment_statuses %}
 
-<div class=" col-lg-6 margin-adder">
-    <h4>Paid and Unpaid Status:</h4>
-    <div class="box-element-order product" id="each_order">
-        <h6 class="price">Paid: {{order_payment_status.paid}}</h6>
-
+    <div class=" col-lg-6 margin-adder">
+        <h4>Paid and Unpaid Status:</h4>
+        <div class="box-element-order product" id="each_order">
+            <h6 class="price">Paid: {{order_payment_status.paid}}</h6>
 
 
 
 
+
+        </div>
     </div>
-</div>
-{% endfor %}
+    {% endfor %}
 
 
 </div>

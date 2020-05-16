@@ -72,6 +72,8 @@
 
             <div class="form-inline my-2 my-lg-0 ml-auto">
                 {% block login-logout %}
+                <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;' href="{% url 'order_status' %}"
+                    class="btn btn-primary"> Order Status</a>
                 <a href="{% url 'login' %}" style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
                     class="btn btn-success">Login</a>
                 {% endblock %}
