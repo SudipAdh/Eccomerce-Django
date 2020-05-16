@@ -1,0 +1,71 @@
+{% extends 'store/Main.html' %}
+{% load static %}
+{% block login-logout %}
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active navbar-brand">
+            Hello, {{request.user}}!
+        </li>
+
+        <li class=" nav-item active">
+            {% if request.user.is_authenticated %}
+            <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;' href="{% url 'order_status' %}"
+                class="btn btn-primary"> Order Status</a>
+            {% else %}
+            <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;' href="{% url 'login' %}"
+                class="btn btn-success"> login</a>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+
+{% endblock login-logout %}
+{% block content %}
+<h4>Your Orders:</h4>
+<div class="row">
+
+    {% for order_item in order_items %}
+    <div class=" col-lg-6 margin-adder">
+
+        <div class="box-element-order product" id="each_order">
+
+            <h6 class="price">Name: {{order_item.product}}</h6>
+            <h6 class="price">Quantity: {{order_item.quantity}}</h6>
+
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% for order_delivery_status in order_delivery_statuses %}
+<div class=" col-lg-6 margin-adder">
+    <h4>Confirm And Delivered Status:</h4>
+    <div class="box-element-order product" id="each_order">
+        <h6 class="price">Confimed: {{order_delivery_status.confirmed}}</h6>
+
+        <h6 class="price">Delivered: {{order_delivery_status.delivered}}</h6>
+
+
+
+    </div>
+</div>
+{% endfor %}
+{% for order_payment_status in order_payment_statuses %}
+
+<div class=" col-lg-6 margin-adder">
+    <h4>Paid and Unpaid Status:</h4>
+    <div class="box-element-order product" id="each_order">
+        <h6 class="price">Paid: {{order_payment_status.paid}}</h6>
+
+
+
+
+
+    </div>
+</div>
+{% endfor %}
+
+
+</div>
+
+{% endblock %}

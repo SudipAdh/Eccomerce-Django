@@ -1,0 +1,44 @@
+{% extends 'store/Main.html' %}
+{% load static %}
+{% block login-logout %}
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active navbar-brand">
+            Hello, {{request.user}}!
+        </li>
+        <li class=" nav-item active">
+            {% if request.user.is_authenticated %}
+            <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;' href="{% url 'order_status' %}"
+                class="btn btn-primary"> Order Status</a>
+            {% else %}
+            <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;' href="{% url 'login' %}"
+                class="btn btn-success"> login</a>
+            {% endif %}
+        </li>
+
+
+    </ul>
+</div>
+{% endblock %}
+{% block content %}
+<div class="row">
+    {% for order in orders %}
+    {% if order.tansaction_id == "NULL" %}
+    <h1>No orders made yet</h1>
+    {% else %}
+
+    <div class=" col-lg-12 margin-adder">
+        <a class="link" href="{% url 'view_order_detail_user' id=order.transaction_id %}">
+            <div class="box-element-order product">
+
+                <h6 class="price">Ordered At:{{order.date_ordered}}</h6>
+
+
+            </div>
+        </a>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+</div>
+{% endblock %}
