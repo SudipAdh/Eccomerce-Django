@@ -72,7 +72,8 @@
 
             <div class="form-inline my-2 my-lg-0 ml-auto">
                 {% block login-logout %}
-                <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
+                <a href="{% url 'login' %}" style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
+                    class="btn btn-success">Login</a>
                 {% endblock %}
                 <a href="{% url 'cart' %}">
                     <img id="cart-icon" src="{% static 'images/cart.png' %}">
