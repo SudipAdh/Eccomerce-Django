@@ -12,12 +12,14 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from django.contrib.sites.shortcuts import get_current_site
 
+
 from django.core.mail import EmailMessage
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from django.contrib.auth.decorators import login_required
 import json
 import datetime
+
 
 from .models import *
 from .forms import CreateUserForm
@@ -37,6 +39,7 @@ def loginPage(request):
             if user is not None:
                 login(request, user)
                 return redirect("store")
+
             else:
                 messages.info(request, "Username Or Password is incorrect")
 
@@ -351,4 +354,3 @@ def view_order_detail_user(request, id):
         "cartItems": cartItems,
     }
     return render(request, "store/order_detail_user.html", context)
-

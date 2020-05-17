@@ -1,21 +1,17 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 
 
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from store import models as store_models
-
-import json
-
 from .forms import AddProductForm
-import string
 
 
 def backend_login(request):
-    if request.user.is_authenticated and request.user.is_staff == True:
+    if request.user.is_authenticated and request.user.is_staff:
         return redirect("backend_main")
 
         if request.method == "POST":
@@ -24,25 +20,28 @@ def backend_login(request):
 
             user = authenticate(request, username=username, password=password)
 
-            if user is not None and user.is_staff == True:
+            if user is not None and user.is_staff:
                 login(request, user)
                 return redirect("backend_main")
             else:
                 messages.info(
                     request,
-                    "You don't have staff access ! Please leave this page or else legal action will be taken.",
+                    """ You don't have staff access ! Please leave this page
+                    or else legal action will be taken.""",
                 )
 
         context = {}
         return render(request, "backend/backend_login.html", context)
 
-    elif request.user.is_authenticated and request.user.is_staff == False:
+    elif request.user.is_authenticated and not request.user.is_staff:
         return HttpResponse(
-            "<h1>Dear Customer, you dont have Authority to access this page</h1>"
+            """<h1>Dear Customer,you dont have Authority to access this page
+            </h1>"""
         )
     else:
         return HttpResponse(
-            "<h1>Please leave this page or else legal action will be taken.</h1>"
+            """<h1>Please leave this page or else legal action will be taken.
+            </h1>"""
         )
 
 
