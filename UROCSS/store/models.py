@@ -1,21 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractUser
-
-from django.utils import timezone
-
-# class Customer(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-#     name = models.CharField(max_length=200, null=True)
-#     email = models.CharField(max_length=200, null=True)
-
-#     def __str__(self):
-#         return self.name
-# class CustomUser(AbstractUser):
-#     age = models.PositiveIntegerField(null=True, blank=True)
-#     phone_number = models.PositiveIntegerField(null=True, blank=True)
-
-#     def __str__(self):
-#         return str(self.phone_number)
+from django.contrib.auth.models import User
 
 
 class Product(models.Model):
@@ -43,20 +27,25 @@ class Product(models.Model):
     def imageUrl(self):
         try:
             url = self.image.url
-        except:
+
+        except Exception:
             url = ""
         return url
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    customer = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=False)
     transaction_id = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        if self.transaction_id != None:
-            return str(self.transaction_id + "(" + str(self.date_ordered) + ")")
+        if self.transaction_id is not None:
+            return str(
+                self.transaction_id + "(" + str(self.date_ordered) + ")"
+            )
         else:
             return str(self.transaction_id)
 
@@ -65,7 +54,7 @@ class Order(models.Model):
         shipping = False
         orderitems = self.orderitem_set.all()
         for i in orderitems:
-            if i.product.digital == False:
+            if not i.product.digital:
                 shipping = True
 
         return shipping
@@ -87,7 +76,9 @@ class OrderItem(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.SET_NULL, blank=True, null=True
     )
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, blank=True, null=True
+    )
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -101,8 +92,12 @@ class OrderItem(models.Model):
 
 
 class ShippingAddress(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    customer = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, blank=True, null=True
+    )
     address = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=200, null=True)
@@ -117,31 +112,41 @@ class ShippingAddress(models.Model):
 
 
 class OrderDeliveryStatus(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
-    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, blank=True, null=True
+    )
+    customer = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     address = models.CharField(max_length=200, null=True)
     confirmed = models.BooleanField(default=False)
     delivered = models.BooleanField(default=False)
 
     def __str__(self):
-        if self.confirmed == True and self.delivered == True:
+        if self.confirmed and self.delivered:
             return str("Confirmed and Delivered= True | " + str(self.order))
-        elif self.confirmed == True and self.delivered == False:
-            return str("Confirmed True and Delivered False | " + str(self.order))
-        elif self.confirmed == False and self.delivered == False:
+        elif self.confirmed and self.delivered:
+            return str(
+                "Confirmed True and Delivered False | " + str(self.order)
+            )
+        elif not self.confirmed and not self.delivered:
             return str("New Order | " + str(self.order))
         else:
             return str("Not Possible Plz chech status")
 
 
 class PaymentInfo(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
-    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, blank=True, null=True
+    )
+    customer = models.ForeignKey(
+        User, on_delete=models.SET_NULL, blank=True, null=True
+    )
     address = models.CharField(max_length=200, null=True)
     paid = models.BooleanField(default=False)
 
     def __str__(self):
-        if self.paid == False:
+        if not self.paid:
             return str("New Order Not Paid | " + str(self.order))
         else:
             return str("Paid | " + str(self.order))

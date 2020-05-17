@@ -1,6 +1,6 @@
-from django.urls import path, re_path
+from django.urls import path
 from . import views
-from store import views as store_views
+
 
 urlpatterns = [
     path("", views.backend_login, name="backend_login"),
