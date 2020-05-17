@@ -1,3 +1,8 @@
 {
-    "python.pythonPath": "/home/sudip/Desktop/wikidata/venv/bin/python3.7"
+    "python.pythonPath": "/home/sudip/Desktop/wikidata/venv/bin/python3.7",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider":"black",
+    "editor.formatOnSave": true,
 }

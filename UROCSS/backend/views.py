@@ -11,7 +11,7 @@ from .forms import AddProductForm
 
 
 def backend_login(request):
-    if request.user.is_authenticated and request.user.is_staff:
+    if request.user.is_authenticated and request.user.is_staff is True:
         return redirect("backend_main")
 
         if request.method == "POST":
@@ -33,7 +33,7 @@ def backend_login(request):
         context = {}
         return render(request, "backend/backend_login.html", context)
 
-    elif request.user.is_authenticated and not request.user.is_staff:
+    elif request.user.is_authenticated and request.user.is_staff is False:
         return HttpResponse(
             """<h1>Dear Customer,you dont have Authority to access this page
             </h1>"""
