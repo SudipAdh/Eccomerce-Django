@@ -9,6 +9,12 @@ from django.contrib.auth.decorators import login_required
 from store import models as store_models
 from .forms import AddProductForm
 
+from django.contrib.sites.shortcuts import get_current_site
+
+from django.template.loader import render_to_string
+
+from django.core.mail import EmailMessage
+
 
 def backend_login(request):
     if request.user.is_authenticated and request.user.is_staff is True:
@@ -93,7 +99,30 @@ def order_delivery_status(request, id):
         confirm = request.POST["confirm"]
         deliver = request.POST["deliver"]
         payment = request.POST["payment"]
+
         order = store_models.Order.objects.get(transaction_id=id)
+        customer_email = order.customer.email
+
+        current_site = get_current_site(request)
+        if confirm == "True" and deliver == "False":
+            mail_subject = str(order.customer) + ", your order is confirmed!"
+            message = render_to_string(
+                "backend/order_confirm.html",
+                {"user": order.customer, "domain": current_site.domain},
+            )
+            email = EmailMessage(mail_subject, message, to=[customer_email],)
+            email.send()
+        elif confirm == "True" and deliver == "True":
+            mail_subject = str(order.customer) + ", your order is Delivered!"
+            message = render_to_string(
+                "backend/order_delivered.html",
+                {"user": order.customer, "domain": current_site.domain},
+            )
+            email = EmailMessage(mail_subject, message, to=[customer_email],)
+            email.send()
+        else:
+            pass
+
         order_items = order.orderitem_set.all()
         shipping_info = order.shippingaddress_set.all()
         order_delivery_status_data = order.orderdeliverystatus_set.all()
