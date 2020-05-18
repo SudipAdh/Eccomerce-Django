@@ -1,1 +1,1 @@
-web: gunicorn ./UROCSS.wsgi --log-file -
+web: gunicorn UROCSS.wsgi --log-file -
