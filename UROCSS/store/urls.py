@@ -8,14 +8,17 @@ urlpatterns = [
     path("logout/", views.logoutUser, name="logout"),
     path("register/", views.registerPage, name="register"),
     re_path(
-        r"^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$",
+        r"""^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[
+            0-9A-Za-z]{1,20})/$""",
         views.activate,
         name="activate",
     ),
     path("change_password/", views.changePassword, name="change_password"),
     path(
         "reset_password/",
-        auth_views.PasswordResetView.as_view(template_name="store/password_reset.html"),
+        auth_views.PasswordResetView.as_view(
+            template_name="store/password_reset.html"
+        ),
         name="reset_password",
     ),
     path(
