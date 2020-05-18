@@ -4,6 +4,7 @@ from django.http import JsonResponse
 
 from django.utils.encoding import force_bytes, force_text
 
+# from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.template.loader import render_to_string
 
 from django.contrib.auth import (
@@ -279,19 +280,6 @@ def processOrder(request):
                 customer=request.user,
                 address=data["shipping"]["address"],
             )
-            current_site = get_current_site(request)
-            mail_subject = "A new order had arrived,please check!"
-            message = render_to_string(
-                "store/new_order_mail.html",
-                {"user": request.user, "domain": current_site.domain},
-            )
-
-            email = EmailMessage(
-                mail_subject,
-                message,
-                to=["xudip12@gmail.com", "xudip13@gmail.com"],
-            )
-            email.send()
 
     else:
         print("user is not logged in")

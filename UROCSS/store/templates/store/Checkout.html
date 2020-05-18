@@ -6,19 +6,13 @@
         <li class="nav-item active navbar-brand">
             Hello, {{request.user}}!
         </li>
-        <li class="nav-item active navbar-brand">
-            <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;' href="{% url 'order_status' %}"
-                class="btn btn-primary"> Order Status</a>
-        </li>
+
 
     </ul>
 </div>
 
 {% endblock %}
 {% block content %}
-<div id='loader' style='display: none;margin-top:20%;margin-left: 40%;'>
-    <img src='https://media.giphy.com/media/jAYUbVXgESSti/giphy.gif' width='30%' height='30%'>
-</div>
 <div class="row">
     <div class="col-lg-6">
         <div class="box-element" id="form-wrapper">
@@ -172,35 +166,28 @@
         console.log(shippingInfo)
 
         var url = '/process_order/'
-        $.ajax({
-            url: url,
-            type: 'POST',
+        fetch(url, {
+            method: 'POST',
             headers: {
+                'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken,
 
             },
-            dataType: 'json',
-            data: JSON.stringify({
+            body: JSON.stringify({
                 'form': userFormData,
                 'shipping': shippingInfo
-            }),
-            beforeSend: function () {
-                $("#loader").show();
-                $(".row").hide();
-            },
-            success: function (response, data) {
-                (response) => {
-                    return response.json()
-                }
-            },
-            complete: function () {
-                $("#loader").hide();
-                alert('Your order is placed succesfully.');
-                window.location.href = "{% url 'store' %}"
-            }
-
+            })
         })
+            .then((response) => {
+                return response.json()
+            })
 
+            .then((data) => {
+                console.log("Success:", data);
+                alert('Transaction completed');
+                window.location.href = "{% url 'store' %}"
+
+            })
     }
 
 </script>
