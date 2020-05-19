@@ -6,9 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UROCSS</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+        integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/accounts.css' %}">
     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
     <script type="text/javascript">
         var user = '{{request.user}}'
@@ -34,7 +38,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark" id="navbar">
 
         <a class="navbar-brand" href="{% url 'store' %}"><strong>UROCSS</strong></a>
 
@@ -89,9 +93,11 @@
 
 
                             {% else %}
-                            <a href="{% url 'login' %}"
+                            <a href="#" style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
+                                class="btn btn-success" id="login-form">Login</a>
+                            <a href="{% url 'register' %}"
                                 style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
-                                class="btn btn-success">Login</a>
+                                class="btn btn-success" id="register-form">Register</a>
                             {% endif %}
                         </li>
                         <li class=" nav-item active">
@@ -103,7 +109,7 @@
                                     data-toggle="dropdown">setting</button>
                                 <div class="dropdown-menu">
 
-                                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                    <a class="dropdown-item" href=" {% url 'logout' %}">Logout</a>
                                     <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
                                     <a class="dropdown-item" href="#">#</a>
 
@@ -125,9 +131,10 @@
 
         </div>
     </nav>
-    <div class="container">
+    <div class="container" style="width: 100%;">
         <br>
         {% block content %}
+
         {% endblock %}
     </div>
     <div class="footer">
@@ -142,6 +149,20 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
     <script src="{% static 'js/cart.js' %}"></script>
+    <script type="text/javascript">
+
+        document.getElementById("login-form").addEventListener('click', function () {
+            document.getElementById("form-login").style.zIndex = '10';
+            document.getElementById("form-login").style.display = 'block';
+
+        })
+
+
+
+
+
+    </script>
+
 </body>
 
 </html>
