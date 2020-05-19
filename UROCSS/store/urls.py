@@ -54,6 +54,11 @@ urlpatterns = [
         views.view_order_detail_user,
         name="view_order_detail_user",
     ),
+    path(
+        "categorical_search/<str:item>",
+        views.categorical_search,
+        name="categorical_search",
+    ),
 ]
 # 1->original form submit email form
 # 2->success email sent success message

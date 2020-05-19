@@ -46,6 +46,21 @@
             {% if request.user.is_authenticated %}
             <div class="dropdown">
                 <button style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px; margin-right:30px;'
+                    class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Category</button>
+                <div class="dropdown-menu">
+
+                    <a class="dropdown-item" href="{% url 'categorical_search' item='clothing_men' %}">Clothings Men</a>
+                    <a class="dropdown-item" href="{% url 'categorical_search' item='technology' %}">Technology</a>
+                    <a class="dropdown-item" href="#">Food</a>
+                    <a class="dropdown-item" href="#">Food</a>
+                    <a class="dropdown-item" href="#">Food</a>
+                    <a class="dropdown-item" href="#">Food</a>
+                    <a class="dropdown-item" href="#">Food</a>
+
+                </div>
+            </div>
+            <div class="dropdown">
+                <button style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px; margin-right:30px;'
                     class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">setting</button>
                 <div class="dropdown-menu">
 

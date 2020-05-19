@@ -427,3 +427,32 @@ def view_order_detail_user(request, id):
         "cartItems": cartItems,
     }
     return render(request, "store/order_detail_user.html", context)
+
+
+def categorical_search(request, item):
+
+    products = Product.objects.filter(search_tags__icontains=item).order_by(
+        "-created_at"
+    )
+
+    if request.user.is_authenticated:
+        try:
+            order = Order.objects.get(customer=request.user, complete=False)
+
+            cartItems = order.get_cart_items
+        except Exception:
+            order = {
+                "get_cart_items": 0,
+                "get_cart_total": 0,
+                "shipping": False,
+            }
+            cartItems = order["get_cart_items"]
+    else:
+        order = {
+            "get_cart_items": 0,
+            "get_cart_total": 0,
+            "shipping": False,
+        }
+        cartItems = order["get_cart_items"]
+    context = {"products": products, "cartItems": cartItems}
+    return render(request, "store/Store.html", context)
