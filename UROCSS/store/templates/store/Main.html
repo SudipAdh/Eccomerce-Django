@@ -11,8 +11,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
         integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/accounts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slider.css' %}">
     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
     <script type="text/javascript">
         var user = '{{request.user}}'
@@ -83,7 +85,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active navbar-brand">
+                            {% if request.user.is_authenticated %}
                             Hello, {{request.user}}!
+                            {% else %}
+                            Welcome!
+                            {% endif %}
                         </li>
 
                         <li class=" nav-item active">
@@ -131,8 +137,12 @@
 
         </div>
     </nav>
-    <div class="container" style="width: 100%;">
+
+    <div class="container" style="width:100%;">
         <br>
+        {% block slider %}
+
+        {% endblock %}
         {% block content %}
 
         {% endblock %}
@@ -149,6 +159,7 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
     <script src="{% static 'js/cart.js' %}"></script>
+    <script src="{% static 'js/slider.js' %}"></script>
     <script type="text/javascript">
 
         document.getElementById("login-form").addEventListener('click', function () {

@@ -57,8 +57,9 @@
         </div>
         <br>
         <div class="box-element hidden" id="payment-info">
-            <small>Paypal Option</small>
-            <button id="make-payment">Make Payment</button>
+            <strong>Make Order To UROCSS</strong>
+
+            <button class="btn btn-danger" id="make-payment">Place Order</button>
 
         </div>
 
@@ -91,8 +92,10 @@
 
 </div>
 <script type="text/javascript">
+
     var shipping = '{{ order.shipping }}'
     var total = '{{order.get_cart_total}}'
+
 
 
 
