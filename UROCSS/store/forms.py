@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> da6641f8e10f3dfcad6a229989def4f41845888e
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms

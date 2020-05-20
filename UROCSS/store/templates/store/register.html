@@ -1,4 +1,6 @@
+{% extends 'store/Main.html' %}
 {% load static %}
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 
@@ -22,6 +24,17 @@
                         <h3 id="form-title">REGISTER ACCOUNT</h3>
                     </div>
                     <div class="d-flex justify-content-center form_container">
+=======
+{% block content %}
+<div class="bg-img">
+    <div class="container h-100">
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center">
+                    <h3 id="form-title">REGISTER ACCOUNT</h3>
+                </div>
+                <div class="d-flex justify-content-center form_container">
+>>>>>>> da6641f8e10f3dfcad6a229989def4f41845888e
 
                         <form method="POST" action="">
                             {% csrf_token %}
@@ -60,6 +73,7 @@
                         </form>
                     </div>
 
+<<<<<<< HEAD
                     <div class="text-color">
                         {{error}}
                     </div>
@@ -70,6 +84,17 @@
                                 <button class="btn btn-primary btn-sm">Login</button>
                             </a>
                         </div>
+=======
+                <div class="text-color">
+                    {{error}}
+                </div>
+
+                <div class="mt-4 text-color">
+                    <div class="d-flex justify-content-center links">
+                        Already have an account? <a href="{% url 'login' %}" class="ml-2">
+                            <button class="btn btn-primary btn-sm">Login</button>
+                        </a>
+>>>>>>> da6641f8e10f3dfcad6a229989def4f41845888e
                     </div>
                 </div>
             </div>
@@ -79,6 +104,7 @@
     //We start indexing at one because CSRF_token is considered and input field 
     */
 
+<<<<<<< HEAD
             //Query All input fields
             var form_fields = document.getElementsByTagName('input')
             form_fields[1].placeholder = 'Username..';
@@ -96,3 +122,20 @@
 </body>
 
 </html>
+=======
+        //Query All input fields
+        var form_fields = document.getElementsByTagName('input')
+        form_fields[2].placeholder = 'Username..';
+        form_fields[3].placeholder = 'Email..';
+
+        form_fields[4].placeholder = 'Enter password...';
+        form_fields[5].placeholder = 'Re-enter Password...';
+
+
+        for (var field in form_fields) {
+            form_fields[field].className += ' form-control'
+        }
+    </script>
+</div>
+{% endblock %}
+>>>>>>> da6641f8e10f3dfcad6a229989def4f41845888e

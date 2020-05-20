@@ -54,8 +54,19 @@ def loginPage(request):
 
             else:
                 messages.info(request, "Username Or Password is incorrect")
+        try:
+            order = Order.objects.get(customer=request.user, complete=False)
 
-        context = {}
+            cartItems = order.get_cart_items
+        except Exception:
+            order = {
+                "get_cart_items": 0,
+                "get_cart_total": 0,
+                "shipping": False,
+            }
+            cartItems = order["get_cart_items"]
+        context = {"cartItems": cartItems}
+
         return render(request, "store/login.html", context)
 
 
@@ -66,8 +77,17 @@ def logoutUser(request):
 
 @login_required(login_url="login")
 def changePassword(request):
-    order = Order.objects.get(customer=request.user, complete=False)
-    cartItems = order.get_cart_items
+    try:
+        order = Order.objects.get(customer=request.user, complete=False)
+
+        cartItems = order.get_cart_items
+    except Exception:
+        order = {
+            "get_cart_items": 0,
+            "get_cart_total": 0,
+            "shipping": False,
+        }
+        cartItems = order["get_cart_items"]
     form = PasswordChangeForm(user=request.user)
     if request.method == "POST":
         form = PasswordChangeForm(data=request.POST, user=request.user)
@@ -115,11 +135,30 @@ def registerPage(request):
                 context = {}
                 return render(request, "store/signup_email_sent.html", context)
             else:
-                context = {"error": form.errors, "form": CreateUserForm()}
+                order = {
+                    "get_cart_items": 0,
+                    "get_cart_total": 0,
+                    "shipping": False,
+                }
+                cartItems = order["get_cart_items"]
+                context = {
+                    "error": form.errors,
+                    "form": CreateUserForm(),
+                    "cartItems": cartItems,
+                }
                 return render(request, "store/register.html", context)
 
         else:
-            context = {"form": form}
+            order = {
+                "get_cart_items": 0,
+                "get_cart_total": 0,
+                "shipping": False,
+            }
+            cartItems = order["get_cart_items"]
+            context = {
+                "form": form,
+                "cartItems": cartItems,
+            }
             return render(request, "store/register.html", context)
 
 
@@ -155,14 +194,24 @@ def store(request):
                 "shipping": False,
             }
             cartItems = order["get_cart_items"]
+        products = Product.objects.all().order_by("-created_at")
+        context = {"products": products, "cartItems": cartItems}
+        return render(request, "store/Store.html", context)
 
     else:
 
-        order = {"get_cart_items": 0, "get_cart_total": 0, "shipping": False}
+        order = {
+            "get_cart_items": 0,
+            "get_cart_total": 0,
+            "shipping": False,
+        }
         cartItems = order["get_cart_items"]
-    products = Product.objects.all().order_by("-created_at")
-    context = {"products": products, "cartItems": cartItems}
-    return render(request, "store/Store.html", context)
+        products = Product.objects.all().order_by("-created_at")
+        context = {
+            "products": products,
+            "cartItems": cartItems,
+        }
+        return render(request, "store/Store.html", context)
 
 
 @login_required(login_url="login")
