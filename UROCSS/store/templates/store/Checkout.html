@@ -5,7 +5,7 @@
 <div id='loader' style='display: none;margin-top:20%;margin-left: 40%;'>
     <img src='https://media.giphy.com/media/jAYUbVXgESSti/giphy.gif' width='30%' height='30%'>
 </div>
-<div class="row">
+<div class="row" id="row">
     <div class="col-lg-6">
         <div class="box-element" id="form-wrapper">
             <form id="form">
@@ -57,8 +57,9 @@
         </div>
         <br>
         <div class="box-element hidden" id="payment-info">
-            <small>Paypal Option</small>
-            <button id="make-payment">Make Payment</button>
+            <strong>Make Order To UROCSS</strong>
+
+            <button class="btn btn-danger" id="make-payment">Place Order</button>
 
         </div>
 
@@ -91,8 +92,10 @@
 
 </div>
 <script type="text/javascript">
+
     var shipping = '{{ order.shipping }}'
     var total = '{{order.get_cart_total}}'
+
 
 
 
