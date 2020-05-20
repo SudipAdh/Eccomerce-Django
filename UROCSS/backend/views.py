@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 from django.contrib.auth import authenticate, login
@@ -14,6 +14,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 
 from django.core.mail import EmailMessage
+
+from store.models import Product
+
+import json
 
 
 def backend_login(request):
@@ -137,3 +141,32 @@ def order_delivery_status(request, id):
             "order_payment_statuses": order_payment_status_data,
         }
         return render(request, "backend/view_order_detail.html", context)
+
+
+@login_required(login_url="backend_login")
+def view_product_in_table(request):
+    products = Product.objects.all()
+    context = {"products": products}
+    return render(request, "backend/view_product_in_table.html", context)
+
+
+@login_required(login_url="backend_login")
+def delete_product(request, id):
+
+    data = json.loads(request.body)
+    productId = data["productId"]
+    action = data["action"]
+    print(productId, action)
+
+    # customer = request.user
+    product = Product.objects.get(id=productId)
+    if action == "delete":
+        product.delete()
+        product.save()
+    return JsonResponse("Item was added ", safe=False)
+
+
+@login_required(login_url="backend_login")
+def edit_product_form(request, id):
+    context = {}
+    return render(request, "backend/edit_product_form.html", context)

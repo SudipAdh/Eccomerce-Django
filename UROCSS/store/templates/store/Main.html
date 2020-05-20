@@ -40,7 +40,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark" id="navbar">
+    <nav class="navbar navbar-expand-sm navbar-dark " id="navbar">
 
         <a class="navbar-brand" href="{% url 'store' %}"><strong>UROCSS</strong></a>
 
@@ -99,12 +99,14 @@
 
 
                             {% else %}
+
                             <a href="#" style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
                                 class="btn btn-success" id="login-form">Login</a>
                             <a href="{% url 'register' %}"
                                 style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
                                 class="btn btn-success" id="register-form">Register</a>
                             {% endif %}
+
                         </li>
                         <li class=" nav-item active">
                             {% if request.user.is_authenticated %}
@@ -131,18 +133,22 @@
                 <a href="{% url 'cart' %}">
                     <img id="cart-icon" src="{% static 'images/cart.png' %}">
                 </a>
+                {% if not request.user.is_authenticated  %}
+                <p id="cart-total">0</p>
+                {% else %}
                 <p id="cart-total">{{cartItems}}</p>
+                {% endif %}
 
             </div>
 
         </div>
     </nav>
+    {% block bgimg %}
 
+    {% endblock %}
     <div class="container" style="width:100%;">
         <br>
-        {% block slider %}
 
-        {% endblock %}
         {% block content %}
 
         {% endblock %}
