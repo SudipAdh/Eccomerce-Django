@@ -199,3 +199,16 @@ h1,h2,h3,h4,h5,h6{
 	color: white;
 	border-right: 0.5px solid #000000;
 }
+#slider .carousel-item{
+	height: 400px;
+	background-size: 100% 100%;
+}
+#slider1{
+	background: url("../../static/images/beardoil.jpeg") center no-repeat;
+}
+#slider2{
+	background: url("../../static/images/blue_headphones.jpg") center no-repeat;
+}
+#slider3{
+	background: url("../../static/images/lambo.jpg") center no-repeat;
+}
