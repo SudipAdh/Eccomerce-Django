@@ -168,5 +168,7 @@ def delete_product(request, id):
 
 @login_required(login_url="backend_login")
 def edit_product_form(request, id):
-    context = {}
+    id = int(id)
+    product = Product.objects.get(id=id)
+    context = {"product": product}
     return render(request, "backend/edit_product_form.html", context)

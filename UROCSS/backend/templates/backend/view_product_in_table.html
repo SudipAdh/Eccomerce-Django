@@ -21,7 +21,7 @@
             <td>{{product.price|floatformat:2}}</td>
             <td>{{product.stock}}</td>
             <td>
-                <a href="{% url 'edit_product_form' id=product.id %}">
+                <a href="{% url 'edit_product_form' id=product.id %}" style="text-decoration: none;">
                     <button class="btn btn-warning" style="margin-right:10px;">Edit</button>
                 </a>
 

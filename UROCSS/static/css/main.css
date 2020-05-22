@@ -1,4 +1,4 @@
-body{
+.body{
 	background-color: hsl(0, 0%, 90%);
 }
 
@@ -215,10 +215,10 @@ h1,h2,h3,h4,h5,h6{
 
 }
 #slider1{
-	background: url("../../static/images/carousel_1.jpg") center no-repeat;
+	background: url("../../static/images/ad_2.jpeg") center no-repeat;
 }
 #slider2{
-	background: url("../../static/images/carousel_2.jpg") center no-repeat;
+	background: url("../../static/images/ad_2.jpeg") center no-repeat;
 }
 #slider3{
 	background: url("../../static/images/carousel_3.jpg") center no-repeat;

@@ -6,82 +6,80 @@
         <form method="POST" action="{% url 'add_product_form' %}" id="form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-field">
-                <h6>Product Name</h6><input required type="text" name="username" placeholder="Username..."
+                <h6>Product Name</h6><input required type="text" name="username" value="{{product.name}}"
                     class="form-control">
 
             </div>
             <div class="form-field">
                 <h6>Product Price</h6>
-                {{form.price}}
+                <input required type="text" name="username" value="{{product.price}}" </div>
             </div>
 
-
-            <br>
-            <h6>Is Digital</h6>
             <div class="form-field">
-                {{form.digital}}
+                <h6>Is Digital</h6>
+                <input required type="text" name="username" value="{{product.digital}}" </div>
+
             </div>
-            <br>
 
             <div class="form-field">
                 <h6>Main Image</h6>
-                {{form.image}}
+                <input required type="text" name="username" value="{{product.image}}">
             </div>
             <div class="form-field">
                 <h6>Image</h6>
-                {{form.image1}}
+                <input required type="text" name="username" value="{{product.image1}}">
             </div>
 
             <div class="form-field">
                 <h6>Image</h6>
-                {{form.image2}}
+                <input required type="text" name="username" value="{{product.image2}}">
             </div>
-            <div class="form-field">
+            <div class=" form-field">
                 <h6>Image</h6>
-                {{form.image3}}
+                <input required type="text" name="username" value="{{product.image3}}">
             </div>
 
             <div class="form-field">
                 <h6>Seller</h6>
-                {{form.seller}}
+                <input required type="text" name="username" value="{{product.seller}}">
             </div>
-            <div>
-                <div class="form-field">
-                    <h6>Distance</h6>
-                    {{form.distance}}
-                </div>
-                <div class="form-field">
-                    <h6>In Stock</h6>
-                    {{form.stock}}
-                </div>
-                <div class="form-field">
-                    <h6>Color</h6>
-                    {{form.color}}
-                </div>
 
-                <div class="form-field">
-                    <h6>Size</h6>
-                    {{form.size}}
-                </div>
-                <div class="form-field">
-                    <h6>Search Tags</h6>
-                    {{form.search_tags}}
-                </div>
-
-                <div style="display:inline-block;" class="description">
-                    <div class="form-field">
-                        <h6>Description</h6>
-                        {{form.description}}
-                    </div>
-                </div>
-
+            <div class="form-field">
+                <h6>Distance</h6>
+                <input required type="text" name="username" value="{{product.distance}}">
             </div>
-            <hr>
-            <input id="form-button" type="submit" value="Add Product" class="btn btn-success btn-block">
+            <div class="form-field">
+                <h6>In Stock</h6>
+                <input required type="text" name="username" value="{{product.stock}}">
+            </div>
+            <div class="form-field">
+                <h6>Color</h6>
+                <input required type="text" name="username" value="{{product.color}}">
+            </div>
 
-        </form>
+            <div class="form-field">
+                <h6>Size</h6>
+                <input required type="text" name="username" value="{{product.size}}">
+            </div>
+            <div class="form-field">
+                <h6>Search Tags</h6>
+                <input required type="text" name="username" value="{{product.search_tags}}">
+            </div>
+
+            <div style="display:inline-block;" class="description">
+                <div class="form-field">
+                    <h6>Description</h6>
+                    <input required type="text" name="username" value="{{product.description}}">
+                </div>
+            </div>
 
     </div>
+    <hr>
+    <input id="form-button" type="submit" value="Add Product" class="btn btn-success btn-block">
+
+    </form>
+
+</div>
 </div>
 
 {% endblock %}
