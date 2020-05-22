@@ -177,3 +177,47 @@ def edit_product_form(request, id):
     product = Product.objects.get(id=id)
     context = {"product": product}
     return render(request, "backend/edit_product_form.html", context)
+
+
+@login_required(login_url="backend_login")
+def set_product_detail(request, id):
+    id = int(id)
+    keys = [
+        "name",
+        "price",
+        "digital",
+        "image",
+        "image1",
+        "image2",
+        "image3",
+        "seller",
+        "stock",
+        "size",
+        "color",
+        "search_tags",
+        "description",
+    ]
+    if request.method == "POST":
+        real_keys = []
+        for each in keys:
+            if each.startswith("image"):
+                if request.FILES.get(each) is not None:
+                    real_keys.append(each)
+            else:
+                if request.POST[each] is not None:
+                    real_keys.append(each)
+
+        print(real_keys)
+
+        product = Product.objects.get(id=id)
+        print(product)
+        for keys in real_keys:
+            if keys.startswith("image"):
+                product.keys = request.FILES.get(keys)
+                product.save()
+
+            else:
+                product.keys = request.POST[keys]
+                product.save()
+
+    return redirect("view_product_in_table")

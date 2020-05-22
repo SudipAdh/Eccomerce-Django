@@ -28,4 +28,9 @@ urlpatterns = [
         name="edit_product_form",
     ),
     path("delete_product/", views.delete_product, name="delete_product"),
+    path(
+        "set_product_detail/<str:id>/",
+        views.set_product_detail,
+        name="set_product_detail",
+    ),
 ]
