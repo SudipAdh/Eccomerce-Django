@@ -138,30 +138,6 @@
 
         </div>
     </nav>
-    <div id="slider" class="carousel slide" data-ride="carousel" data-interval="5000">
-        <ol class="carousel-indicators">
-            <li data-target="#slider" data-slide-to="0" class="active"></li>
-            <li data-target="#slider" data-slide-to="1"></li>
-
-            <li data-target="slider" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active" id="slider1">
-            </div>
-            <div class="carousel-item" id="slider2">
-            </div>
-            <div class="carousel-item" id="slider3">
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#slider" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#slider" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
 
     <div class="container" style="width:100%;">
         <br>
@@ -190,6 +166,7 @@
         document.getElementById("login-form").addEventListener('click', function () {
             document.getElementById("form-login").style.zIndex = '10';
             document.getElementById("form-login").style.display = 'block';
+            document.getElementById("carousel-indicators").style.zIndex = '-1'
 
         })
 
