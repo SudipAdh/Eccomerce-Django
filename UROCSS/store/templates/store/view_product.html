@@ -2,9 +2,60 @@
 {% load static %}
 
 {% block content %}
+<div class="container h-100" id="form-login">
+    <div class="d-flex justify-content-center h-100">
+        <div class="user_card">
+            <img id="logo" src="{% static 'images/logo.png' %}">
+            <div class="d-flex justify-content-center">
+                <h3 id="form-title">LOGIN</h3>
+            </div>
+            <div class="d-flex justify-content-center form_container">
+                <form method="POST" action="{% url 'login' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+
+                        <input type="text" name="username" placeholder="Username..." class="form-control">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+
+                        <input type="password" name="password" placeholder="Password..." class="form-control">
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-3 login_container">
+                        <input class="btn login_btn" type="submit" value="Login">
+                    </div>
+                </form>
+
+            </div>
 
 
-<div>
+            {% for message in messages %}
+            <p id="messages">{{message}}</p>
+            {% endfor %}
+
+            <div class="mt-4 text-color">
+
+                <hr>
+                <div class="d-flex justify-content-center links">
+                    Forgot password?<a href="{% url 'reset_password' %}" class="ml-2">
+                        <button class="btn btn-primary btn-sm">Reset Password</button>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="margin-top: 5%;">
     <img class="thumbnail-each" src="{{product.image}}">
     <div class="box-element-each product-each">
         <h6 class="name"><strong>{{product.name}}</strong></h6>

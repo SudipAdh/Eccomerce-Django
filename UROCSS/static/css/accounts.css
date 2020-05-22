@@ -3,22 +3,23 @@ body,
            margin: 0;
            padding: 0;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);
+            /* background-color: rgba(0,0,0,0.6); */
             
         }
         
         .bg-img{
             background-image: url("../../static/images/img.jpg");
             min-height: 664px;
-            background-position: center;
+            width: 100%;
             background-size: cover;
             position: relative;
+            
         }
 
         .user_card {
-            width: 350px;
+            width: 400px;
             margin:50px 0;
-            background: rgba(0,0,0,0.6);
+            background:#001f3f;
             position: absolute;
             display: flex;
             justify-content: center;
@@ -45,11 +46,12 @@ body,
             width: 100%;
             
             font-size: 1rem;
-            color: #fff;
+            color:white;
             border:none;
             border-bottom: 0.065rem solid #fff;
             outline: none;
             background: transparent;
+            
         }
 
         .form_container {
@@ -118,4 +120,14 @@ body,
         }
         .alert{
             background-color: rgb(63, 6, 6);
+        }
+        #form-login{
+            position:fixed;
+            display: none;
+            
+        }
+        #form-register{
+            position:fixed;
+            display: none;
+            
         }
