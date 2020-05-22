@@ -62,13 +62,19 @@
     </a>
     <div class="box-element product" id="each_product">
         <h6 class="name"><strong>{{product.name}}</strong></h6>
-        <br>
+
+
+
         <h6 class="price">Rs {{product.price|floatformat:2}}</h6>
         <hr>
+        {% if not product.stock == 0 %}
 
-        <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add
+        <button data-product={{product.id}} data-action="add" class="btn btn-success add-btn update-cart">Add
             to Cart</button>
-
+        {% else %}
+        <button class="btn btn-danger">Out
+            Of Stock</button>
+        {% endif %}
     </div>
 </div>
 

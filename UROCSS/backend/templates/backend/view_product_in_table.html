@@ -1,0 +1,54 @@
+{% extends 'backend/backend_main.html' %}
+{% load static %}
+{% block main %}
+
+<div class="row">
+
+
+    <!-- <div class=" col-lg-12 margin-adder"> -->
+    <table>
+        <tr>
+            <th>product_id</th>
+            <th>product_name</th>
+            <th>product_price</th>
+            <th>product_stock</th>
+            <th>Action</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{product.id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.price|floatformat:2}}</td>
+            <td>{{product.stock}}</td>
+            <td>
+                <a href="{% url 'edit_product_form' id=product.id %}">
+                    <button class="btn btn-warning" style="margin-right:10px;">Edit</button>
+                </a>
+
+                <button class="btn btn-danger action-product" data-action="delete"
+                    data-product={{product.id}}>Delete</button>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+
+    </table>
+</div>
+</div>
+{% for prodcut in products %}
+
+
+
+
+
+
+
+
+
+
+
+{% endfor %}
+</div>
+</div>
+{% endblock %}

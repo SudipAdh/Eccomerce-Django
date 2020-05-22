@@ -16,4 +16,15 @@ urlpatterns = [
         views.order_delivery_status,
         name="order_delivery_status",
     ),
+    path(
+        "view_product_in_table/",
+        views.view_product_in_table,
+        name="view_product_in_table",
+    ),
+    path(
+        "edit_product_form/<str:id>/",
+        views.edit_product_form,
+        name="edit_product_form",
+    ),
+    path("delete_product/", views.delete_product, name="delete_product"),
 ]

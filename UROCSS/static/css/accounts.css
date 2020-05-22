@@ -1,3 +1,4 @@
+
 body,
         html {
            margin: 0;
@@ -8,18 +9,22 @@ body,
         }
         
         .bg-img{
-            background-image: url("../../static/images/img.jpg");
+            background-image: url("../../static/images/logo_urocss.png");
             min-height: 664px;
             width: 100%;
+            background-position: center;
             background-size: cover;
             position: relative;
+            background-repeat: repeat-y;
+            
+            
             
         }
 
         .user_card {
             width: 400px;
             margin:50px 0;
-            background:#001f3f;
+            background:#001f3f; 
             position: absolute;
             display: flex;
             justify-content: center;
@@ -30,6 +35,7 @@ body,
             -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             border-radius: 5px;
             box-sizing: rgba(0,0,0,0.6);
+            float: left;
 
 
         }
@@ -48,9 +54,9 @@ body,
             font-size: 1rem;
             color:white;
             border:none;
-            border-bottom: 0.065rem solid #fff;
+            border-bottom: 0.065rem solid black;
             outline: none;
-            background: transparent;
+            background: transparent; 
             
         }
 
@@ -79,7 +85,8 @@ body,
         }
 
         .input-group-text {
-            background: #f7ba5b !important;
+            /* background: #f7ba5b !important; */
+            background: black;
             color: white !important;
             border: 0 !important;
             border-radius: 0.25rem 0 0 0.25rem !important;
@@ -93,7 +100,7 @@ body,
 
         #messages {
             background-color: grey;
-            color: #fff;
+            color:black;
             padding: 10px;
             margin-top: 10px;
         }
@@ -114,7 +121,8 @@ body,
             width: 25rem;
             padding: 2.5rem;
             box-sizing: rgba(0,0,0.6);
-            background: rgba(177, 131, 131, 0.6);
+            /* background: rgba(177, 131, 131, 0.6); */
+            background: black;
             border-radius: 0.625rem;
             box-shadow:hsl(0, 2%, 68%) 0 0 16px;
         }

@@ -273,6 +273,7 @@ def updateItem(request):
 
     # customer = request.user
     product = Product.objects.get(id=productId)
+    stock_value = product.stock
     order, created = Order.objects.get_or_create(
         customer=request.user, complete=False
     )
@@ -282,9 +283,14 @@ def updateItem(request):
     )
 
     if action == "add":
+
         orderItem.quantity = orderItem.quantity + 1
+        if orderItem.quantity > stock_value:
+            orderItem.quantity = stock_value
+
     elif action == "remove":
         orderItem.quantity = orderItem.quantity - 1
+
     orderItem.save()
 
     if orderItem.quantity <= 0:
@@ -328,6 +334,24 @@ def processOrder(request):
                 customer=request.user,
                 address=data["shipping"]["address"],
             )
+            orderItems = order.orderitem_set.all()
+            product_id = [orderItem.product.id for orderItem in orderItems]
+            quantity = [orderItem.quantity for orderItem in orderItems]
+            print(product_id)
+            print(quantity)
+
+            quantity_items = len(quantity)
+            print(quantity_items)
+            i = 0
+            for each_product_id in product_id:
+
+                product = Product.objects.get(id=each_product_id)
+                product.stock = product.stock - quantity[i]
+                product.save()
+                print(product.stock)
+                i = i + 1
+                if i == quantity_items:
+                    break
             current_site = get_current_site(request)
             mail_subject = "A new order had arrived,please check!"
             message = render_to_string(

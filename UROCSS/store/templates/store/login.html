@@ -1,11 +1,14 @@
 {% extends 'store/Main.html' %}
 {% load static %}
-{% block content %}
+{% block bgimg %}
 <div class="bg-img">
+    {% endblock %}
+    {% block content %}
+
     <div class="container h-100" id="form">
         <div class="d-flex justify-content-center h-100">
             <div class="user_card">
-                <img id="logo" src="{% static 'images/logo.png' %}">
+                <!-- <img id="logo" src="{% static 'images/logo.png' %}"> -->
                 <div class="d-flex justify-content-center">
                     <h3 id="form-title">LOGIN</h3>
                 </div>

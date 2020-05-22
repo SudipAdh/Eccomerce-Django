@@ -1,7 +1,57 @@
 {% extends 'store/Main.html' %}
 {% load static %}
-{% block content %}
+{% block login-logout %}
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active navbar-brand">
+            {% if request.user.is_authenticated %}
+            Hello, {{request.user}}!
+            {% else %}
+            Welcome!
+            {% endif %}
+        </li>
+
+        <li class=" nav-item active">
+            {% if request.user.is_authenticated %}
+            <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;' href="{% url 'order_status' %}"
+                class="btn btn-primary"> Order Status</a>
+
+
+            {% else %}
+
+            <a href="{% url 'login' %}" style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
+                class="btn btn-success" id="login-form">Login</a>
+            <a href="{% url 'register' %}" style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
+                class="btn btn-success" id="register-form">Register</a>
+            {% endif %}
+
+        </li>
+        <li class=" nav-item active">
+            {% if request.user.is_authenticated %}
+            <div class="dropdown">
+                <button
+                    style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;margin-left: 10px; margin-right:30px;'
+                    class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">setting</button>
+                <div class="dropdown-menu">
+
+                    <a class="dropdown-item" href=" {% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
+                    <a class="dropdown-item" href="#">#</a>
+
+                </div>
+
+            </div>
+            {% endif %}
+        </li>
+    </ul>
+</div>
+
+{% endblock login-logout %}
+{% block bgimg %}
 <div class="bg-img">
+    {% endblock %}
+    {% block content %}
+
     <div class="container h-100">
         <div class="d-flex justify-content-center h-100">
             <div class="user_card">
@@ -60,8 +110,14 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
         <script>
             /* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
+=======
+    </div>
+    <script>
+        /* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
+>>>>>>> d35478874a2e32d0056545435959ff16ef6cc6fa
     //We start indexing at one because CSRF_token is considered and input field 
     */
 
