@@ -190,3 +190,36 @@ h1,h2,h3,h4,h5,h6{
 	background:#001f3f;
 	
 }
+.dropdown:hover>.dropdown-menu{
+	display: block;
+}
+.dropdown> .dropdown-toggle :active{
+	pointer-events: none;
+}
+.dropdown-menu{
+	background-color: white;
+}
+.dropdown-menu a{
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+.dropdown-menu a:hover{
+	background-color: rgba(14, 133, 123, 0.904);
+	color: white;
+	border-right: 0.5px solid #000000;
+}
+#slider .carousel-item{
+	height: 400px;
+	background-size: 100% 100%;
+	margin-top: 3%;
+
+}
+#slider1{
+	background: url("../../static/images/carousel_1.jpg") center no-repeat;
+}
+#slider2{
+	background: url("../../static/images/carousel_2.jpg") center no-repeat;
+}
+#slider3{
+	background: url("../../static/images/carousel_3.jpg") center no-repeat;
+}

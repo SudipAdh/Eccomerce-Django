@@ -52,8 +52,9 @@
             {% if request.user.is_authenticated %}
             <div class="dropdown">
                 <button style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px; margin-right:30px;'
-                    class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Category</button>
-                <div class="dropdown-menu">
+                    class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"
+                    id="dropdownMenuButton" aria-haspopup="true">Category</button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                     <a class="dropdown-item" href="{% url 'categorical_search' item='clothing_men' %}">Clothings Men</a>
                     <a class="dropdown-item" href="{% url 'categorical_search' item='technology' %}">Technology</a>
@@ -113,9 +114,9 @@
                             <div class="dropdown">
                                 <button
                                     style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;margin-left: 10px; margin-right:30px;'
-                                    class="btn btn-info dropdown-toggle" type="button"
-                                    data-toggle="dropdown">setting</button>
-                                <div class="dropdown-menu">
+                                    class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
+                                    id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">setting</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                     <a class="dropdown-item" href=" {% url 'logout' %}">Logout</a>
                                     <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
@@ -171,6 +172,7 @@
         document.getElementById("login-form").addEventListener('click', function () {
             document.getElementById("form-login").style.zIndex = '10';
             document.getElementById("form-login").style.display = 'block';
+            document.getElementById("carousel-indicators").style.zIndex = '-1'
 
         })
 
