@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path("", views.backend_login, name="backend_login"),
+    path("backend_logout", views.backend_logout, name="backend_logout"),
     path("backend_main/", views.backend_main, name="backend_main"),
     path("add_product_form/", views.add_product_form, name="add_product_form"),
     path(

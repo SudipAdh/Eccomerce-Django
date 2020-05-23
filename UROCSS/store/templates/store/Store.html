@@ -7,7 +7,12 @@
 <div class="container h-100" id="form-login">
     <div class="d-flex justify-content-center h-100">
         <div class="user_card">
+            <button style="float:right; margin-left: 90%; background-color:white;" id="close" type="button"
+                class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <img id="logo" src="{% static 'images/logo.png' %}">
+
             <div class="d-flex justify-content-center">
                 <h3 id="form-title">LOGIN</h3>
             </div>
@@ -61,7 +66,7 @@
         <li data-target="#slider" data-slide-to="0" class="active"></li>
         <li data-target="#slider" data-slide-to="1"></li>
 
-        <li data-target="slider" data-slide-to="2"></li>
+        <li data-target="#slider" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active" id="slider1">

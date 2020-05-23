@@ -303,6 +303,13 @@
             document.getElementById("form-login").style.zIndex = '10';
             document.getElementById("form-login").style.display = 'block';
             document.getElementById("carousel-indicators").style.zIndex = '-1'
+            document.getElementById("close").addEventListener("click", function () {
+
+                document.getElementById("form-login").style.display = 'none';
+                document.getElementById("carousel-indicators").style.zIndex = '10'
+
+
+            })
 
         })
 

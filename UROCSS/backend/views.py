@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -24,6 +24,12 @@ def backend_login(request):
     if request.user.is_authenticated and request.user.is_staff is True:
         return redirect("backend_main")
 
+    elif request.user.is_authenticated and request.user.is_staff is False:
+        return HttpResponse(
+            """<h1>Dear Customer,you dont have Authority to access this page
+            </h1>"""
+        )
+    else:
         if request.method == "POST":
             username = request.POST.get("username")
             password = request.POST.get("password")
@@ -34,25 +40,24 @@ def backend_login(request):
                 login(request, user)
                 return redirect("backend_main")
             else:
+
                 messages.info(
                     request,
                     """ You don't have staff access ! Please leave this page
                     or else legal action will be taken.""",
                 )
+                return redirect("backend_login")
 
-        context = {}
-        return render(request, "backend/backend_login.html", context)
+        else:
+            context = {}
+            return render(request, "backend/backend_login.html", context)
+        # return render(request, "backend/backend_login.html", context)
 
-    elif request.user.is_authenticated and request.user.is_staff is False:
-        return HttpResponse(
-            """<h1>Dear Customer,you dont have Authority to access this page
-            </h1>"""
-        )
-    else:
-        return HttpResponse(
-            """<h1>Please leave this page or else legal action will be taken.
-            </h1>"""
-        )
+
+@login_required(login_url="backend_login")
+def backend_logout(request):
+    logout(request)
+    return redirect("backend_login")
 
 
 @login_required(login_url="backend_login")
