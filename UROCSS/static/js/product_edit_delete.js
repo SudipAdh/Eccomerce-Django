@@ -19,7 +19,7 @@ for (var i = 0; i < updateBtns.length; i++) {
 function updateUserOrder(productId, action) {
     console.log('Doing some action')
 
-    var url = "/delete_product/"
+    var url = "/backend/delete_product/"
 
     fetch(url, {
         method: 'POST',

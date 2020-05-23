@@ -156,7 +156,7 @@ def view_product_in_table(request):
 
 
 @login_required(login_url="backend_login")
-def delete_product(request, id):
+def delete_product(request):
 
     data = json.loads(request.body)
     productId = data["productId"]
@@ -167,7 +167,7 @@ def delete_product(request, id):
     product = Product.objects.get(id=productId)
     if action == "delete":
         product.delete()
-        product.save()
+
     return JsonResponse("Item was added ", safe=False)
 
 
@@ -197,27 +197,17 @@ def set_product_detail(request, id):
         "search_tags",
         "description",
     ]
+    product = Product.objects.get(id=id)
+    fields = product.__dict__
     if request.method == "POST":
-        real_keys = []
+
         for each in keys:
             if each.startswith("image"):
                 if request.FILES.get(each) is not None:
-                    real_keys.append(each)
+                    fields[each] = request.FILES.get(each)
+
             else:
                 if request.POST[each] is not None:
-                    real_keys.append(each)
-
-        print(real_keys)
-
-        product = Product.objects.get(id=id)
-        print(product)
-        for keys in real_keys:
-            if keys.startswith("image"):
-                product.keys = request.FILES.get(keys)
-                product.save()
-
-            else:
-                product.keys = request.POST[keys]
-                product.save()
-
+                    fields[each] = request.POST[each]
+        product.save()
     return redirect("view_product_in_table")
