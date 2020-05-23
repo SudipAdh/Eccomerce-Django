@@ -36,19 +36,20 @@ body,
 
         .user_card {
             width: 400px;
-            margin:50px 0;
+            margin: 105px 0;
             background:#001f3f; 
             position: absolute;
             display: flex;
             justify-content: center;
             flex-direction: column;
-            padding: 10px;
+            padding: 40px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 5px;
+            border-radius: 10px;
             box-sizing: rgba(0,0,0,0.6);
             float: left;
+
 
 
         }
