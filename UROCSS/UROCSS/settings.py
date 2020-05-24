@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "store.apps.StoreConfig",
     "six",
+    "phone_field",
     "backend",
     "django_cleanup.apps.CleanupConfig",
 ]
