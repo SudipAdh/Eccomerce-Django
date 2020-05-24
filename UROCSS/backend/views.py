@@ -62,10 +62,35 @@ def backend_logout(request):
 
 @login_required(login_url="backend_login")
 def backend_main(request):
-    # orders = store_models.Order.objects.all()
+    orders = store_models.Order.objects.all()
+    for order in orders:
 
-    context = {}
-    return render(request, "backend/backend_main.html", context)
+        print(orders)
+        order_delivery_status = order.orderdeliverystatus_set.all()
+        order_payment_status = order.paymentinfo_set.all()
+        order = order.__dict__
+        if (
+            order_delivery_status[0].confirmed is True
+            and order_delivery_status[0].delivered is False
+        ):
+            order["confirmed"] = True
+            order["delivered"] = False
+            order["paid"] = False
+
+        elif order_delivery_status[0].delivered is True:
+            order["confirmed"] = True
+            order["delivered"] = True
+            order["paid"] = False
+        elif order_payment_status[0].paid is True:
+            order["confirmed"] = True
+            order["delivered"] = True
+            order["paid"] = True
+        else:
+            order["confirmed"] = False
+            order["delivered"] = False
+            order["paid"] = False
+    context = {"orders": orders}
+    return render(request, "backend/backend_homepage.html", context)
 
 
 @login_required(login_url="backend_login")
@@ -108,12 +133,27 @@ def order_delivery_status(request, id):
         confirm = request.POST["confirm"]
         deliver = request.POST["deliver"]
         payment = request.POST["payment"]
-
         order = store_models.Order.objects.get(transaction_id=id)
         customer_email = order.customer.email
 
         current_site = get_current_site(request)
         if confirm == "True" and deliver == "False":
+            orderItems = order.orderitem_set.all()
+            product_id = [orderItem.product.id for orderItem in orderItems]
+            quantity = [orderItem.quantity for orderItem in orderItems]
+
+            quantity_items = len(quantity)
+
+            i = 0
+            for each_product_id in product_id:
+
+                product = Product.objects.get(id=each_product_id)
+                product.stock = product.stock - quantity[i]
+                product.save()
+
+                i = i + 1
+                if i == quantity_items:
+                    break
             mail_subject = str(order.customer) + ", your order is confirmed!"
             message = render_to_string(
                 "backend/order_confirm.html",
@@ -145,7 +185,7 @@ def order_delivery_status(request, id):
             "transaction_id": str(id),
             "order_payment_statuses": order_payment_status_data,
         }
-        return render(request, "backend/view_order_detail.html", context)
+        return render(request, "backend/backend_main.html", context)
 
 
 @login_required(login_url="backend_login")
@@ -226,15 +266,18 @@ def new_orders(request):
     new_orders = []
     orders = store_models.Order.objects.all()
     for order in orders:
-        print(orders)
+
         order_delivery_status = order.orderdeliverystatus_set.all()
-        print(order_delivery_status)
-        if order_delivery_status[0].confirmed is False:
+
+        if (
+            order_delivery_status[0].confirmed is False
+            and order_delivery_status[0].delivered is False
+        ):
             new_orders.append(order)
         else:
             continue
-    print(new_orders)
-    context = {"orders": new_orders}
+
+    context = {"orders": new_orders, "title": "New Orders"}
     return render(request, "backend/backend_main.html", context)
 
 
@@ -246,12 +289,15 @@ def confirmed_orders(request):
 
         order_delivery_status = order.orderdeliverystatus_set.all()
 
-        if order_delivery_status[0].confirmed is True:
+        if (
+            order_delivery_status[0].confirmed is True
+            and order_delivery_status[0].delivered is False
+        ):
             confirmed_orders.append(order)
         else:
             continue
 
-    context = {"orders": confirmed_orders}
+    context = {"orders": confirmed_orders, "title": "Confirmed Orders"}
     return render(request, "backend/backend_main.html", context)
 
 
@@ -268,7 +314,7 @@ def delivered_orders(request):
         else:
             continue
 
-    context = {"orders": delivered_orders}
+    context = {"orders": delivered_orders, "title": "Delivered Orders"}
     return render(request, "backend/backend_main.html", context)
 
 
@@ -285,5 +331,5 @@ def paid_orders(request):
         else:
             continue
 
-    context = {"orders": paid_orders}
+    context = {"orders": paid_orders, "title": "Paid Orders"}
     return render(request, "backend/backend_main.html", context)

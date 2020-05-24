@@ -1,0 +1,57 @@
+{% extends 'backend/backend_main.html' %}
+{% load static %}
+{% block main %}
+
+<div class="row">
+    <!-- <div style="text-align: center;"> -->
+    <h1>{{title}}</h1>
+</div>
+<div class="row">
+    <table>
+        <tr>
+            <th>Transaction Id</th>
+            <th>Is Complete</th>
+            <th>Customer Name</th>
+            <th>Date Ordered</th>
+            <th>Confirmed</th>
+            <th>Delivered</th>
+            <th>Paid</th>
+
+            <th>View</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{order.transaction_id}}</td>
+            <td>{{order.complete}}</td>
+            <td>{{order.customer}}</td>
+            <td>{{order.date_ordered}}</td>
+            {% if order.confirmed is True %}
+            <td style="color: green;">{{order.confirmed}}</td>
+            {% else %}
+            <td style="color: red;">{{order.confirmed}}</td>
+            {% endif %}
+            {% if order.delivered is True %}
+            <td style="color:green;">{{order.delivered}}</td>
+            {% else %}
+            <td style="color:red;">{{order.delivered}}</td>
+            {% endif %}
+            {% if order.paid is True %}
+            <td style="color:green">{{order.paid}}</td>
+            {% else %}
+            <td style="color:red">{{order.paid}}</td>
+            {% endif %}
+            <td>
+                <a href="{% url 'view_order_detail' id=order.transaction_id %}" style="text-decoration: none;">
+                    <button class="btn btn-warning" style="margin-right:10px;">View</button>
+                </a>
+
+
+            </td>
+
+        </tr>
+        {% endfor %}
+
+
+    </table>
+</div>
+{% endblock %}

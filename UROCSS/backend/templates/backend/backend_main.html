@@ -108,25 +108,40 @@
                 <div class="container-fluid p-5">
                     {% block main %}
                     <div class="row">
-                        {% for order in orders %}
+                        <!-- <div style="text-align: center;"> -->
+                        <h1>{{title}}</h1>
+                    </div>
+                    <div class="row">
+                        <table>
+                            <tr>
+                                <th>Transaction Id</th>
+                                <th>Is Complete</th>
+                                <th>Customer Name</th>
+                                <th>Date Ordered</th>
 
-                        <div class=" col-lg-12 margin-adder">
-                            <a class="link" href="{% url 'view_order_detail' id=order.transaction_id %}">
-                                <div class="box-element-order product">
-                                    <h6 class="price">{{order.transaction_id}}</h6>
-                                    <br>
-                                    <h6 class="price">{{order.complete}}</h6>
-                                    <hr>
-                                    <h6 class="price">{{order.customer}}</h6>
-                                    <hr>
-                                    <h6 class="price">{{order.date_ordered}}</h6>
+                                <th>View</th>
+                            </tr>
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{order.transaction_id}}</td>
+                                <td>{{order.complete}}</td>
+                                <td>{{order.customer}}</td>
+                                <td>{{order.date_ordered}}</td>
+
+                                <td>
+                                    <a href="{% url 'view_order_detail' id=order.transaction_id %}"
+                                        style="text-decoration: none;">
+                                        <button class="btn btn-warning" style="margin-right:10px;">View</button>
+                                    </a>
 
 
-                                </div>
-                            </a>
-                        </div>
+                                </td>
 
-                        {% endfor %}
+                            </tr>
+                            {% endfor %}
+
+
+                        </table>
                     </div>
                     {% endblock %}
 
