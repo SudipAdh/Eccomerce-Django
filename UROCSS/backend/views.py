@@ -62,9 +62,9 @@ def backend_logout(request):
 
 @login_required(login_url="backend_login")
 def backend_main(request):
-    orders = store_models.Order.objects.all()
+    # orders = store_models.Order.objects.all()
 
-    context = {"orders": orders}
+    context = {}
     return render(request, "backend/backend_main.html", context)
 
 
@@ -156,6 +156,14 @@ def view_product_in_table(request):
 
 
 @login_required(login_url="backend_login")
+def out_of_stock_product(request):
+    products = Product.objects.filter(stock=0)
+
+    context = {"products": products}
+    return render(request, "backend/view_product_in_table.html", context)
+
+
+@login_required(login_url="backend_login")
 def delete_product(request):
 
     data = json.loads(request.body)
@@ -211,3 +219,71 @@ def set_product_detail(request, id):
                     fields[each] = request.POST[each]
         product.save()
     return redirect("view_product_in_table")
+
+
+@login_required(login_url="backend_login")
+def new_orders(request):
+    new_orders = []
+    orders = store_models.Order.objects.all()
+    for order in orders:
+        print(orders)
+        order_delivery_status = order.orderdeliverystatus_set.all()
+        print(order_delivery_status)
+        if order_delivery_status[0].confirmed is False:
+            new_orders.append(order)
+        else:
+            continue
+    print(new_orders)
+    context = {"orders": new_orders}
+    return render(request, "backend/backend_main.html", context)
+
+
+@login_required(login_url="backend_login")
+def confirmed_orders(request):
+    confirmed_orders = []
+    orders = store_models.Order.objects.all()
+    for order in orders:
+
+        order_delivery_status = order.orderdeliverystatus_set.all()
+
+        if order_delivery_status[0].confirmed is True:
+            confirmed_orders.append(order)
+        else:
+            continue
+
+    context = {"orders": confirmed_orders}
+    return render(request, "backend/backend_main.html", context)
+
+
+@login_required(login_url="backend_login")
+def delivered_orders(request):
+    delivered_orders = []
+    orders = store_models.Order.objects.all()
+    for order in orders:
+
+        order_delivery_status = order.orderdeliverystatus_set.all()
+
+        if order_delivery_status[0].delivered is True:
+            delivered_orders.append(order)
+        else:
+            continue
+
+    context = {"orders": delivered_orders}
+    return render(request, "backend/backend_main.html", context)
+
+
+@login_required(login_url="backend_login")
+def paid_orders(request):
+    paid_orders = []
+    orders = store_models.Order.objects.all()
+    for order in orders:
+
+        order_payment_status = order.paymentinfo_set.all()
+
+        if order_payment_status[0].paid is True:
+            paid_orders.append(order)
+        else:
+            continue
+
+    context = {"orders": paid_orders}
+    return render(request, "backend/backend_main.html", context)

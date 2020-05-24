@@ -169,11 +169,37 @@
                                         <a href="{% url 'view_product_in_table' %}">View Product</a>
                                     </li>
                                     <li>
-                                        <a href="#">Out Of Stock Products</a>
+                                        <a href="{% url 'out_of_stock_product' %}">Out Of Stock Products</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-tachometer-alt"></i>
+                                <span>Orders</span>
+
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'new_orders' %}">New Orders
+
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'confirmed_orders' %}">Confirmed Orders</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'delivered_orders' %}">Delivered Orders</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'paid_orders' %}">Paid Orders</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
 
                     </ul>
                 </div>

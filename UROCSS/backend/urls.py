@@ -33,4 +33,13 @@ urlpatterns = [
         views.set_product_detail,
         name="set_product_detail",
     ),
+    path(
+        "out_of_stock_product/",
+        views.out_of_stock_product,
+        name="out_of_stock_product",
+    ),
+    path("new_orders/", views.new_orders, name="new_orders"),
+    path("confirmed_orders/", views.confirmed_orders, name="confirmed_orders"),
+    path("delivered_orders/", views.delivered_orders, name="delivered_orders"),
+    path("paid_orders/", views.paid_orders, name="paid_orders"),
 ]
