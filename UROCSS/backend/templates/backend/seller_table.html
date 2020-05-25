@@ -1,0 +1,40 @@
+{% extends 'backend/backend_main.html' %}
+{% load static %}
+{% block main %}
+
+<div class="row">
+
+
+    <!-- <div class=" col-lg-12 margin-adder"> -->
+    <table>
+        <tr>
+            <th>Seller_Name</th>
+            <th>Seller_Age</th>
+            <th>Seller_Shop_Name</th>
+            <th>Seller_Shop_Address</th>
+            <th>Seller_Phone_Number</th>
+            <th>Edit</th>
+        </tr>
+        {% for seller in sellers %}
+        <tr>
+            <td>{{seller.name}}</td>
+            <td>{{seller.age}}</td>
+            <td>{{seller.shop_name}}</td>
+            <td>{{seller.shop_address}}</td>
+            <td>{{seller.contact_number}}</td>
+            <td>
+                <a href="{% url 'edit_seller_detail' id=seller.id %}" style="text-decoration: none;">
+                    <button class="btn btn-warning" style="margin-right:10px;">Edit</button>
+                </a>
+
+
+            </td>
+
+        </tr>
+        {% endfor %}
+
+
+    </table>
+</div>
+
+{% endblock %}

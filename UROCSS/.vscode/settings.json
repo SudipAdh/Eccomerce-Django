@@ -1,0 +1,12 @@
+{
+    "python.pythonPath": "/home/sudip/Desktop/project/venv/bin/python3",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django"
+    ],
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    "python.formatting.blackPath": "/home/sudip/Desktop/project/venv/bin/black"
+}

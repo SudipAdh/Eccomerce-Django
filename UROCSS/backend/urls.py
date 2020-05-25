@@ -42,4 +42,14 @@ urlpatterns = [
     path("confirmed_orders/", views.confirmed_orders, name="confirmed_orders"),
     path("delivered_orders/", views.delivered_orders, name="delivered_orders"),
     path("paid_orders/", views.paid_orders, name="paid_orders"),
+    path("seller_detail/", views.seller_detail, name="seller_detail"),
+    path("add_seller_form/", views.add_seller_form, name="add_seller_form"),
+    path(
+        "edit_seller_detail/<str:id>",
+        views.edit_seller_detail,
+        name="edit_seller_detail",
+    ),
+    path(
+        "set_seller_detail/<str:id>", views.set_seller_detail, name="set_seller_detail"
+    ),
 ]

@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from store import models as store_models
-from .forms import AddProductForm
+from .forms import AddProductForm, AddSellerForm
 
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -16,6 +16,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
 from store.models import Product
+from .models import Seller
 
 import json
 
@@ -64,8 +65,6 @@ def backend_logout(request):
 def backend_main(request):
     orders = store_models.Order.objects.all()
     for order in orders:
-
-        print(orders)
         order_delivery_status = order.orderdeliverystatus_set.all()
         order_payment_status = order.paymentinfo_set.all()
         order = order.__dict__
@@ -209,9 +208,6 @@ def delete_product(request):
     data = json.loads(request.body)
     productId = data["productId"]
     action = data["action"]
-    print(productId, action)
-
-    # customer = request.user
     product = Product.objects.get(id=productId)
     if action == "delete":
         product.delete()
@@ -333,3 +329,61 @@ def paid_orders(request):
 
     context = {"orders": paid_orders, "title": "Paid Orders"}
     return render(request, "backend/backend_main.html", context)
+
+
+@login_required(login_url="backend_login")
+def seller_detail(request):
+    sellers = Seller.objects.all()
+    context = {
+        "sellers": sellers,
+    }
+    return render(request, "backend/seller_table.html", context)
+
+
+@login_required(login_url="backend_login")
+def add_seller_form(request):
+    form_clear = AddSellerForm()
+
+    if request.method == "POST":
+        form = AddSellerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context = {"form": form_clear}
+            return render(request, "backend/add_seller_form.html", context)
+
+    context = {"form": form_clear}
+    return render(request, "backend/add_seller_form.html", context)
+
+
+@login_required(login_url="backend_login")
+def edit_seller_detail(request, id):
+    id = int(id)
+    seller = Seller.objects.get(id=id)
+    context = {"seller": seller}
+    return render(request, "backend/edit_seller_detail.html", context)
+
+
+@login_required(login_url="backend_login")
+def set_seller_detail(request, id):
+    id = int(id)
+    keys = [
+        "name",
+        "age",
+        "shop_name",
+        "shop_address",
+        "contact_number",
+    ]
+    seller = Seller.objects.get(id=id)
+    fields = seller.__dict__
+    if request.method == "POST":
+
+        for each in keys:
+            # if each.startswith("image"):
+            #     if request.FILES.get(each) is not None:
+            #         fields[each] = request.FILES.get(each)
+
+            # else:
+            if request.POST[each] is not None:
+                fields[each] = request.POST[each]
+        seller.save()
+    return redirect("seller_detail")

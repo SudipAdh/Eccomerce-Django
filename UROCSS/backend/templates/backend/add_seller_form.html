@@ -1,0 +1,43 @@
+{% extends 'backend/backend_main.html' %}
+{% block main %}
+
+<div class="col-lg-7">
+    <div class="box-element" id="form-wrapper">
+        <form method="POST" action="{% url 'add_seller_form' %}" id="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-field">
+                <h6>Seller Name</h6>{{form.name}}
+
+            </div>
+            <div class="form-field">
+                <h6>Seller Age</h6>
+                {{form.age}}
+            </div>
+
+
+            <br>
+            <h6>Seller Shop Name</h6>
+            <div class="form-field">
+                {{form.shop_name}}
+            </div>
+            <br>
+
+            <div class="form-field">
+                <h6>Seller Shop Address</h6>
+                {{form.shop_address}}
+            </div>
+            <div class="form-field">
+                <h6>Seller Contact Number</h6>
+                {{form.contact_number}}
+            </div>
+
+
+            <hr>
+            <input id="form-button" type="submit" value="Add Seller" class="btn btn-success btn-block">
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

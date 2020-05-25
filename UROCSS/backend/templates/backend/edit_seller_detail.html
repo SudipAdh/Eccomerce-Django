@@ -1,0 +1,65 @@
+{% extends 'backend/backend_main.html' %}
+{% block main %}
+<div class="row" id="row">
+    <div class="col-lg-7">
+        <h4 style="color: red;">Name :{{seller.name}}</h4>
+        <h4 style="color: red;">Id: {{seller.id}}</h4>
+        <hr>
+        <hr>
+        <div class=" box-element" id="form-wrapper">
+            <form method="POST" action="{% url 'set_seller_detail' id=seller.id %}" id="form"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-field">
+                    <h6>Seller Name</h6><input required type="text" name="name" value="{{seller.name}}"
+                        class="form-control">
+
+                </div>
+                <div class="form-field">
+                    <h6>Seller age</h6>
+                    <input required type="number" name="age" value="{{seller.age}}" </div>
+                </div>
+
+
+
+                <div class="form-field">
+                    <h6>Seller Shop Name</h6>
+                    <input type="text" name="shop_name" value="{{seller.shop_name}}">
+                </div>
+                <div class=" form-field">
+                    <h6>Seller Shop Address</h6>
+                    <input type="text" name="shop_address" value="{{seller.shop_address}}">
+                </div>
+
+                <div class=" form-field">
+                    <h6>Seller Contact Number</h6>
+                    <input type="number" name="contact_number" value="{{seller.contact_number}}">
+                </div>
+
+
+        </div>
+        <hr>
+        <input id="form-button" type="submit" value="Update Seller" class="btn btn-success btn-block">
+
+        </form>
+
+    </div>
+
+    <!-- <div class="col-lg-5">
+        <div class="box-element" style="float: right;">
+            <img class="thumbnail-each" src="{{product.imageUrl}}">
+        </div>
+        <div class="images-each-extras">
+
+            <img class="thumbnail-each-extras" src="{{product.image1.url}}">
+            <img class="thumbnail-each-extras" src="{{product.image2.url}}">
+            <img class="thumbnail-each-extras" src="{{product.image3.url}}">
+
+        </div> -->
+
+
+    <!-- </div> -->
+</div>
+</div>
+
+{% endblock %}
