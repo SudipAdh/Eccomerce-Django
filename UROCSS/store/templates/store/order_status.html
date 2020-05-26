@@ -1,23 +1,39 @@
 {% extends 'store/Main.html' %}
+
 {% load static %}
-
 {% block content %}
-<div class="row" id="row">
+<div class="row" id="row" style="margin-top:5%;">
     {% if orders %}
-    {% for order in orders %}
+    <table>
+        <tr>
+            <th>Order At</th>
+            <th>View</th>
+        </tr>
 
-    <div class=" col-lg-12 margin-adder">
+
+        {% for order in orders %}
+        <tr>
+            <td>{{order.date_ordered}}</td>
+            <td>
+                <a href="{% url 'view_order_detail_user' id=order.transaction_id %}" style="text-decoration: none;">
+                    <button class="btn btn-warning" style="margin-right:10px;">View Details</button>
+                </a>
+            </td>
+        </tr>
+
+        <!-- <div class=" col-lg-12 margin-adder ">
         <a class="link" href="{% url 'view_order_detail_user' id=order.transaction_id %}">
-            <div class="box-element-order product">
+            <div class="box-element-order product-each">
 
                 <h6 class="price">Ordered At:{{order.date_ordered}}</h6>
 
 
             </div>
         </a>
-    </div>
+    </div> -->
 
-    {% endfor %}
+        {% endfor %}
+    </table>
     {% else %}
     <h1>You have not made any orders yet, Kindly make one!</h1>
     {% endif %}

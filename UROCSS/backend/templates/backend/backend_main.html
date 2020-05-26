@@ -58,7 +58,7 @@
                     class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">setting</button>
                 <div class="dropdown-menu">
 
-                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'backend_logout' %}">Logout</a>
                     <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
                     <a class="dropdown-item" href="#">#</a>
 
@@ -108,25 +108,40 @@
                 <div class="container-fluid p-5">
                     {% block main %}
                     <div class="row">
-                        {% for order in orders %}
+                        <!-- <div style="text-align: center;"> -->
+                        <h1>{{title}}</h1>
+                    </div>
+                    <div class="row">
+                        <table>
+                            <tr>
+                                <th>Transaction Id</th>
+                                <th>Is Complete</th>
+                                <th>Customer Name</th>
+                                <th>Date Ordered</th>
 
-                        <div class=" col-lg-12 margin-adder">
-                            <a class="link" href="{% url 'view_order_detail' id=order.transaction_id %}">
-                                <div class="box-element-order product">
-                                    <h6 class="price">{{order.transaction_id}}</h6>
-                                    <br>
-                                    <h6 class="price">{{order.complete}}</h6>
-                                    <hr>
-                                    <h6 class="price">{{order.customer}}</h6>
-                                    <hr>
-                                    <h6 class="price">{{order.date_ordered}}</h6>
+                                <th>View</th>
+                            </tr>
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{order.transaction_id}}</td>
+                                <td>{{order.complete}}</td>
+                                <td>{{order.customer}}</td>
+                                <td>{{order.date_ordered}}</td>
+
+                                <td>
+                                    <a href="{% url 'view_order_detail' id=order.transaction_id %}"
+                                        style="text-decoration: none;">
+                                        <button class="btn btn-warning" style="margin-right:10px;">View</button>
+                                    </a>
 
 
-                                </div>
-                            </a>
-                        </div>
+                                </td>
 
-                        {% endfor %}
+                            </tr>
+                            {% endfor %}
+
+
+                        </table>
                     </div>
                     {% endblock %}
 
@@ -169,11 +184,59 @@
                                         <a href="{% url 'view_product_in_table' %}">View Product</a>
                                     </li>
                                     <li>
-                                        <a href="#">Out Of Stock Products</a>
+                                        <a href="{% url 'out_of_stock_product' %}">Out Of Stock Products</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-tachometer-alt"></i>
+                                <span>Orders</span>
+
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'new_orders' %}">New Orders
+
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'confirmed_orders' %}">Confirmed Orders</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'delivered_orders' %}">Delivered Orders</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'paid_orders' %}">Paid Orders</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-tachometer-alt"></i>
+                                <span>Sellers</span>
+
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'add_seller_form' %}">Add Seller
+
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'seller_detail' %}"> Seller Details
+
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
 
                     </ul>
                 </div>

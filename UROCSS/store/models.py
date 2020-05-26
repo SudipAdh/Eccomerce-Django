@@ -2,15 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Product(models.Model):
+def set_upload_path(instance, filename):
+    return "./{}/{}".format(instance.id, filename)
 
+
+class Product(models.Model):
     name = models.CharField(max_length=200)
     price = models.FloatField()
     digital = models.BooleanField(default=False, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
-    image1 = models.ImageField(null=True, blank=True)
-    image2 = models.ImageField(null=True, blank=True)
-    image3 = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to=set_upload_path)
+    image1 = models.ImageField(null=True, blank=True, upload_to=set_upload_path)
+    image2 = models.ImageField(null=True, blank=True, upload_to=set_upload_path)
+    image3 = models.ImageField(null=True, blank=True, upload_to=set_upload_path)
     seller = models.CharField(max_length=100, null=True)
     distance = models.CharField(max_length=5, null=True)
     stock = models.IntegerField(default=0)
@@ -19,6 +22,27 @@ class Product(models.Model):
     size = models.CharField(max_length=100, null=True)
     search_tags = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    # Model Save override
+    def save(self, *args, **kwargs):
+        if self.id is None:
+            saved_image = self.image
+            saved_image1 = self.image1
+            saved_image2 = self.image2
+            saved_image3 = self.image3
+            self.image = None
+            self.image1 = None
+            self.image2 = None
+            self.image3 = None
+            super(Product, self).save(*args, **kwargs)
+            self.image = saved_image
+            self.image1 = saved_image1
+            self.image2 = saved_image2
+            self.image3 = saved_image3
+            if "force_insert" in kwargs:
+                kwargs.pop("force_insert")
+
+        super(Product, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -34,18 +58,14 @@ class Product(models.Model):
 
 
 class Order(models.Model):
-    customer = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True
-    )
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True, blank=False)
     transaction_id = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         if self.transaction_id is not None:
-            return str(
-                self.transaction_id + "(" + str(self.date_ordered) + ")"
-            )
+            return str(self.transaction_id + "(" + str(self.date_ordered) + ")")
         else:
             return str(self.transaction_id)
 
@@ -76,9 +96,7 @@ class OrderItem(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.SET_NULL, blank=True, null=True
     )
-    order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, blank=True, null=True
-    )
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -92,12 +110,8 @@ class OrderItem(models.Model):
 
 
 class ShippingAddress(models.Model):
-    customer = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True
-    )
-    order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, blank=True, null=True
-    )
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)
     address = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=200, null=True)
@@ -112,12 +126,8 @@ class ShippingAddress(models.Model):
 
 
 class OrderDeliveryStatus(models.Model):
-    order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, blank=True, null=True
-    )
-    customer = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True
-    )
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     address = models.CharField(max_length=200, null=True)
     confirmed = models.BooleanField(default=False)
     delivered = models.BooleanField(default=False)
@@ -126,9 +136,7 @@ class OrderDeliveryStatus(models.Model):
         if self.confirmed and self.delivered:
             return str("Confirmed and Delivered= True | " + str(self.order))
         elif self.confirmed and self.delivered:
-            return str(
-                "Confirmed True and Delivered False | " + str(self.order)
-            )
+            return str("Confirmed True and Delivered False | " + str(self.order))
         elif not self.confirmed and not self.delivered:
             return str("New Order | " + str(self.order))
         else:
@@ -136,12 +144,8 @@ class OrderDeliveryStatus(models.Model):
 
 
 class PaymentInfo(models.Model):
-    order = models.ForeignKey(
-        Order, on_delete=models.CASCADE, blank=True, null=True
-    )
-    customer = models.ForeignKey(
-        User, on_delete=models.SET_NULL, blank=True, null=True
-    )
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     address = models.CharField(max_length=200, null=True)
     paid = models.BooleanField(default=False)
 

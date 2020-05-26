@@ -15,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/accounts.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/slider.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/backend_table.css' %}">
+
     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
     <script type="text/javascript">
         var user = '{{request.user}}'
@@ -40,123 +42,253 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark " id="navbar">
+    <div class="body">
+        <nav class="navbar navbar-expand-sm navbar-dark " id="navbar">
 
-        <a class="navbar-brand" href="{% url 'store' %}"><strong>UROCSS</strong></a>
+            <a class="navbar-brand" href="{% url 'store' %}"><strong>UROCSS</strong></a>
 
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            {% block dropdown %}
-            {% if request.user.is_authenticated %}
-            <div class="dropdown">
-                <button style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px; margin-right:30px;'
-                    class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"
-                    id="dropdownMenuButton" aria-haspopup="true">Category</button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                {% block dropdown %}
+                {% if request.user.is_authenticated %}
+                <div class="dropdown">
+                    <button style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px; margin-right:30px;'
+                        class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"
+                        id="dropdownMenuButton" aria-haspopup="true">Category</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                    <a class="dropdown-item" href="{% url 'categorical_search' item='clothing_men' %}">Clothings Men</a>
-                    <a class="dropdown-item" href="{% url 'categorical_search' item='technology' %}">Technology</a>
-                    <a class="dropdown-item" href="#">Food</a>
-                    <a class="dropdown-item" href="#">Food</a>
-                    <a class="dropdown-item" href="#">Food</a>
-                    <a class="dropdown-item" href="#">Food</a>
-                    <a class="dropdown-item" href="#">Food</a>
+                        <a class="dropdown-item" href="{% url 'categorical_search' item='clothing_men' %}">Clothings
+                            Men</a>
+                        <a class="dropdown-item" href="{% url 'categorical_search' item='technology' %}">Technology</a>
+                        <a class="dropdown-item" href="#">Food</a>
+                        <a class="dropdown-item" href="#">Food</a>
+                        <a class="dropdown-item" href="#">Food</a>
+                        <a class="dropdown-item" href="#">Food</a>
+                        <a class="dropdown-item" href="#">Food</a>
 
+                    </div>
                 </div>
-            </div>
 
-            {% else %}
-
-
-            {% endif %}
-            {% endblock %}
+                {% else %}
 
 
-            <form action="{% url 'search_products' %}" method="GET" class="form-inline">
-                <input name="search_product_name" class="form-control mr-sm-2" type="search" placeholder="Search"
-                    aria-label="Search">
-                <button style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px; margin-right:30px;'
-                    class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
-            </form>
-
-            <div class="form-inline my-2 my-lg-0 ml-auto">
-                {% block login-logout %}
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active navbar-brand">
-                            {% if request.user.is_authenticated %}
-                            Hello, {{request.user}}!
-                            {% else %}
-                            Welcome!
-                            {% endif %}
-                        </li>
-
-                        <li class=" nav-item active">
-                            {% if request.user.is_authenticated %}
-                            <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
-                                href="{% url 'order_status' %}" class="btn btn-primary"> Order Status</a>
+                {% endif %}
+                {% endblock %}
 
 
-                            {% else %}
+                <form action="{% url 'search_products' %}" method="GET" class="form-inline">
+                    <input name="search_product_name" class="form-control mr-sm-2" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <button style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px; margin-right:30px;'
+                        class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
+                </form>
 
-                            <a href="#" style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
-                                class="btn btn-success" id="login-form">Login</a>
-                            <a href="{% url 'register' %}"
-                                style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
-                                class="btn btn-success" id="register-form">Register</a>
-                            {% endif %}
+                <div class="form-inline my-2 my-lg-0 ml-auto">
+                    {% block login-logout %}
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active navbar-brand">
+                                {% if request.user.is_authenticated %}
+                                Hello, {{request.user}}!
+                                {% else %}
+                                Welcome!
+                                {% endif %}
+                            </li>
 
-                        </li>
-                        <li class=" nav-item active">
-                            {% if request.user.is_authenticated %}
-                            <div class="dropdown">
-                                <button
-                                    style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;margin-left: 10px; margin-right:30px;'
-                                    class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
-                                    id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">setting</button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li class=" nav-item active">
+                                {% if request.user.is_authenticated %}
+                                <a style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
+                                    href="{% url 'order_status' %}" class="btn btn-primary"> Order Status</a>
 
-                                    <a class="dropdown-item" href=" {% url 'logout' %}">Logout</a>
-                                    <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
-                                    <a class="dropdown-item" href="#">#</a>
+
+                                {% else %}
+
+                                <a href="#" style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
+                                    class="btn btn-success" id="login-form">Login</a>
+                                <a href="{% url 'register' %}"
+                                    style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;'
+                                    class="btn btn-success" id="register-form">Register</a>
+                                {% endif %}
+
+                            </li>
+                            <li class=" nav-item active">
+                                {% if request.user.is_authenticated %}
+                                <div class="dropdown">
+                                    <button
+                                        style='border-radius: 10px; box-shadow: hsl(0, 86%, 0%) 0 0 5px;margin-left: 10px; margin-right:30px;'
+                                        class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
+                                        id="dropdownMenuButton" aria-haspopup="true"
+                                        aria-expanded="false">setting</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                        <a class="dropdown-item" href=" {% url 'logout' %}">Logout</a>
+                                        <a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a>
+                                        <a class="dropdown-item" href="#">#</a>
+
+                                    </div>
 
                                 </div>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
 
-                            </div>
-                            {% endif %}
-                        </li>
-                    </ul>
+                    {% endblock login-logout %}
+                    <a href="{% url 'cart' %}">
+                        <img id="cart-icon" src="{% static 'images/cart.png' %}">
+                    </a>
+                    {% if not request.user.is_authenticated  %}
+                    <p id="cart-total">0</p>
+                    {% else %}
+                    <p id="cart-total">{{cartItems}}</p>
+                    {% endif %}
+
                 </div>
 
-                {% endblock login-logout %}
-                <a href="{% url 'cart' %}">
-                    <img id="cart-icon" src="{% static 'images/cart.png' %}">
-                </a>
-                {% if not request.user.is_authenticated  %}
-                <p id="cart-total">0</p>
-                {% else %}
-                <p id="cart-total">{{cartItems}}</p>
-                {% endif %}
-
             </div>
-
-        </div>
-    </nav>
-    {% block bgimg %}
-
-    {% endblock %}
-    <div class="container" style="width:100%;">
-        <br>
-
-        {% block content %}
+        </nav>
+        {% block bgimg %}
 
         {% endblock %}
-    </div>
-    <div class="footer">
+        <div class="container" style="width:100%;">
+            <br>
 
+            {% block content %}
+
+            {% endblock %}
+        </div>
     </div>
+    <!-- Footer -->
+    {% block footer %}
+    <footer class="page-footer font-small pt-4" style="background-color:lightgrey;">
+
+        <!-- Footer Links -->
+        <div class="container text-center text-md-left">
+
+            <!-- Grid row -->
+            <div class="row">
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 mr-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Content -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">UROCSS</h5>
+                    <p>UROCSS, is the one and only trusted platform to buy and sell things with easy and in secure way.
+                    </p>
+                    <p>We are always there for you for any support. We are available 24/7</p>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 mx-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Links -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">About</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <p>
+                                <a href="#!">Our Services</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <a href="#!">ABOUT US</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <a href="#!">Contact Us</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <a href="#!">UROCSS OUTSIDER</a>
+                            </p>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 mx-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Contact details -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">Address</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <p>
+                                <i class="fas fa-home mr-3"></i>Ghorahi, 22400, Dang</p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-envelope mr-3"></i><small>urocss.digitalshopping@gmail.com</small></p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-phone mr-3"></i>(+977)9809890585</p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-print mr-3"></i>(+977)9809890585</p>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 text-center mx-auto my-4">
+
+                    <!-- Social buttons -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">Follow Us</h5>
+
+                    <!-- Facebook -->
+                    <a type="button" class="btn-floating btn-fb">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <!-- Twitter -->
+                    <a type="button" class="btn-floating btn-tw">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <!-- Google +-->
+                    <a type="button" class="btn-floating btn-gplus">
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                    <!-- Dribbble -->
+                    <a type="button" class="btn-floating btn-dribbble">
+                        <i class="fab fa-dribbble"></i>
+                    </a>
+
+                </div>
+                <!-- Grid column -->
+
+            </div>
+            <!-- Grid row -->
+
+        </div>
+        <!-- Footer Links -->
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3" style="background-color:white;">© 2020 UROCSS
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+    {% endblock %}
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -173,6 +305,13 @@
             document.getElementById("form-login").style.zIndex = '10';
             document.getElementById("form-login").style.display = 'block';
             document.getElementById("carousel-indicators").style.zIndex = '-1'
+            document.getElementById("close").addEventListener("click", function () {
+
+                document.getElementById("form-login").style.display = 'none';
+                document.getElementById("carousel-indicators").style.zIndex = '10'
+
+
+            })
 
         })
 

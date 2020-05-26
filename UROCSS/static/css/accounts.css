@@ -20,6 +20,19 @@ body,
             
             
         }
+        .bg-color{
+            /* background-image: url("../../static/images/logo_urocss.png"); */
+            min-height: 664px;
+            width: 100%;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            background-repeat: repeat-y;
+            
+            
+            
+        }
+
 
         .user_card {
             width: 400px;

@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from store import models as store_models
-from .forms import AddProductForm
+from .forms import AddProductForm, AddSellerForm
 
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -16,6 +16,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
 from store.models import Product
+from .models import Seller
 
 import json
 
@@ -24,6 +25,12 @@ def backend_login(request):
     if request.user.is_authenticated and request.user.is_staff is True:
         return redirect("backend_main")
 
+    elif request.user.is_authenticated and request.user.is_staff is False:
+        return HttpResponse(
+            """<h1>Dear Customer,you dont have Authority to access this page
+            </h1>"""
+        )
+    else:
         if request.method == "POST":
             username = request.POST.get("username")
             password = request.POST.get("password")
@@ -34,33 +41,55 @@ def backend_login(request):
                 login(request, user)
                 return redirect("backend_main")
             else:
+
                 messages.info(
                     request,
                     """ You don't have staff access ! Please leave this page
                     or else legal action will be taken.""",
                 )
+                return redirect("backend_login")
 
-        context = {}
-        return render(request, "backend/backend_login.html", context)
+        else:
+            context = {}
+            return render(request, "backend/backend_login.html", context)
+        # return render(request, "backend/backend_login.html", context)
 
-    elif request.user.is_authenticated and request.user.is_staff is False:
-        return HttpResponse(
-            """<h1>Dear Customer,you dont have Authority to access this page
-            </h1>"""
-        )
-    else:
-        return HttpResponse(
-            """<h1>Please leave this page or else legal action will be taken.
-            </h1>"""
-        )
+
+@login_required(login_url="backend_login")
+def backend_logout(request):
+    logout(request)
+    return redirect("backend_login")
 
 
 @login_required(login_url="backend_login")
 def backend_main(request):
     orders = store_models.Order.objects.all()
+    for order in orders:
+        order_delivery_status = order.orderdeliverystatus_set.all()
+        order_payment_status = order.paymentinfo_set.all()
+        order = order.__dict__
+        if (
+            order_delivery_status[0].confirmed is True
+            and order_delivery_status[0].delivered is False
+        ):
+            order["confirmed"] = True
+            order["delivered"] = False
+            order["paid"] = False
 
+        elif order_delivery_status[0].delivered is True:
+            order["confirmed"] = True
+            order["delivered"] = True
+            order["paid"] = False
+        elif order_payment_status[0].paid is True:
+            order["confirmed"] = True
+            order["delivered"] = True
+            order["paid"] = True
+        else:
+            order["confirmed"] = False
+            order["delivered"] = False
+            order["paid"] = False
     context = {"orders": orders}
-    return render(request, "backend/backend_main.html", context)
+    return render(request, "backend/backend_homepage.html", context)
 
 
 @login_required(login_url="backend_login")
@@ -103,12 +132,27 @@ def order_delivery_status(request, id):
         confirm = request.POST["confirm"]
         deliver = request.POST["deliver"]
         payment = request.POST["payment"]
-
         order = store_models.Order.objects.get(transaction_id=id)
         customer_email = order.customer.email
 
         current_site = get_current_site(request)
         if confirm == "True" and deliver == "False":
+            orderItems = order.orderitem_set.all()
+            product_id = [orderItem.product.id for orderItem in orderItems]
+            quantity = [orderItem.quantity for orderItem in orderItems]
+
+            quantity_items = len(quantity)
+
+            i = 0
+            for each_product_id in product_id:
+
+                product = Product.objects.get(id=each_product_id)
+                product.stock = product.stock - quantity[i]
+                product.save()
+
+                i = i + 1
+                if i == quantity_items:
+                    break
             mail_subject = str(order.customer) + ", your order is confirmed!"
             message = render_to_string(
                 "backend/order_confirm.html",
@@ -140,7 +184,7 @@ def order_delivery_status(request, id):
             "transaction_id": str(id),
             "order_payment_statuses": order_payment_status_data,
         }
-        return render(request, "backend/view_order_detail.html", context)
+        return render(request, "backend/backend_main.html", context)
 
 
 @login_required(login_url="backend_login")
@@ -151,22 +195,195 @@ def view_product_in_table(request):
 
 
 @login_required(login_url="backend_login")
-def delete_product(request, id):
+def out_of_stock_product(request):
+    products = Product.objects.filter(stock=0)
+
+    context = {"products": products}
+    return render(request, "backend/view_product_in_table.html", context)
+
+
+@login_required(login_url="backend_login")
+def delete_product(request):
 
     data = json.loads(request.body)
     productId = data["productId"]
     action = data["action"]
-    print(productId, action)
-
-    # customer = request.user
     product = Product.objects.get(id=productId)
     if action == "delete":
         product.delete()
-        product.save()
+
     return JsonResponse("Item was added ", safe=False)
 
 
 @login_required(login_url="backend_login")
 def edit_product_form(request, id):
-    context = {}
+    id = int(id)
+    product = Product.objects.get(id=id)
+    context = {"product": product}
     return render(request, "backend/edit_product_form.html", context)
+
+
+@login_required(login_url="backend_login")
+def set_product_detail(request, id):
+    id = int(id)
+    keys = [
+        "name",
+        "price",
+        "digital",
+        "image",
+        "image1",
+        "image2",
+        "image3",
+        "seller",
+        "stock",
+        "size",
+        "color",
+        "search_tags",
+        "description",
+    ]
+    product = Product.objects.get(id=id)
+    fields = product.__dict__
+    if request.method == "POST":
+
+        for each in keys:
+            if each.startswith("image"):
+                if request.FILES.get(each) is not None:
+                    fields[each] = request.FILES.get(each)
+
+            else:
+                if request.POST[each] is not None:
+                    fields[each] = request.POST[each]
+        product.save()
+    return redirect("view_product_in_table")
+
+
+@login_required(login_url="backend_login")
+def new_orders(request):
+    new_orders = []
+    orders = store_models.Order.objects.all()
+    for order in orders:
+
+        order_delivery_status = order.orderdeliverystatus_set.all()
+
+        if (
+            order_delivery_status[0].confirmed is False
+            and order_delivery_status[0].delivered is False
+        ):
+            new_orders.append(order)
+        else:
+            continue
+
+    context = {"orders": new_orders, "title": "New Orders"}
+    return render(request, "backend/backend_main.html", context)
+
+
+@login_required(login_url="backend_login")
+def confirmed_orders(request):
+    confirmed_orders = []
+    orders = store_models.Order.objects.all()
+    for order in orders:
+
+        order_delivery_status = order.orderdeliverystatus_set.all()
+
+        if (
+            order_delivery_status[0].confirmed is True
+            and order_delivery_status[0].delivered is False
+        ):
+            confirmed_orders.append(order)
+        else:
+            continue
+
+    context = {"orders": confirmed_orders, "title": "Confirmed Orders"}
+    return render(request, "backend/backend_main.html", context)
+
+
+@login_required(login_url="backend_login")
+def delivered_orders(request):
+    delivered_orders = []
+    orders = store_models.Order.objects.all()
+    for order in orders:
+
+        order_delivery_status = order.orderdeliverystatus_set.all()
+
+        if order_delivery_status[0].delivered is True:
+            delivered_orders.append(order)
+        else:
+            continue
+
+    context = {"orders": delivered_orders, "title": "Delivered Orders"}
+    return render(request, "backend/backend_main.html", context)
+
+
+@login_required(login_url="backend_login")
+def paid_orders(request):
+    paid_orders = []
+    orders = store_models.Order.objects.all()
+    for order in orders:
+
+        order_payment_status = order.paymentinfo_set.all()
+
+        if order_payment_status[0].paid is True:
+            paid_orders.append(order)
+        else:
+            continue
+
+    context = {"orders": paid_orders, "title": "Paid Orders"}
+    return render(request, "backend/backend_main.html", context)
+
+
+@login_required(login_url="backend_login")
+def seller_detail(request):
+    sellers = Seller.objects.all()
+    context = {
+        "sellers": sellers,
+    }
+    return render(request, "backend/seller_table.html", context)
+
+
+@login_required(login_url="backend_login")
+def add_seller_form(request):
+    form_clear = AddSellerForm()
+
+    if request.method == "POST":
+        form = AddSellerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context = {"form": form_clear}
+            return render(request, "backend/add_seller_form.html", context)
+
+    context = {"form": form_clear}
+    return render(request, "backend/add_seller_form.html", context)
+
+
+@login_required(login_url="backend_login")
+def edit_seller_detail(request, id):
+    id = int(id)
+    seller = Seller.objects.get(id=id)
+    context = {"seller": seller}
+    return render(request, "backend/edit_seller_detail.html", context)
+
+
+@login_required(login_url="backend_login")
+def set_seller_detail(request, id):
+    id = int(id)
+    keys = [
+        "name",
+        "age",
+        "shop_name",
+        "shop_address",
+        "contact_number",
+    ]
+    seller = Seller.objects.get(id=id)
+    fields = seller.__dict__
+    if request.method == "POST":
+
+        for each in keys:
+            # if each.startswith("image"):
+            #     if request.FILES.get(each) is not None:
+            #         fields[each] = request.FILES.get(each)
+
+            # else:
+            if request.POST[each] is not None:
+                fields[each] = request.POST[each]
+        seller.save()
+    return redirect("seller_detail")

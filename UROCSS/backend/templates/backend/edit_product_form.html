@@ -1,86 +1,112 @@
 {% extends 'backend/backend_main.html' %}
 {% block main %}
+<div class="row" id="row">
+    <div class="col-lg-7">
+        <h4 style="color: red;">Name :{{product.name}}</h4>
+        <h4 style="color: red;">Id: {{product.id}}</h4>
+        <hr>
+        <hr>
+        <div class=" box-element" id="form-wrapper">
+            <form method="POST" action="{% url 'set_product_detail' id=product.id %}" id="form"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-field">
+                    <h6>Product Name</h6><input required type="text" name="name" value="{{product.name}}"
+                        class="form-control">
 
-<div class="col-lg-7">
-    <div class="box-element" id="form-wrapper">
-        <form method="POST" action="{% url 'add_product_form' %}" id="form" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="form-field">
-                <h6>Product Name</h6><input required type="text" name="username" placeholder="Username..."
-                    class="form-control">
+                </div>
+                <div class="form-field">
+                    <h6>Product Price</h6>
+                    <input required type="text" name="price" value="{{product.price}}" </div>
+                </div>
 
-            </div>
-            <div class="form-field">
-                <h6>Product Price</h6>
-                {{form.price}}
-            </div>
+                <div class="form-field">
+                    <h6>Is Digital</h6>
+                    <select name="digital" id="id_digital">
 
 
-            <br>
-            <h6>Is Digital</h6>
-            <div class="form-field">
-                {{form.digital}}
-            </div>
-            <br>
+                        <option value="True">Yes</option>
 
-            <div class="form-field">
-                <h6>Main Image</h6>
-                {{form.image}}
-            </div>
-            <div class="form-field">
-                <h6>Image</h6>
-                {{form.image1}}
-            </div>
+                        <option value="False" selected>No</option>
 
-            <div class="form-field">
-                <h6>Image</h6>
-                {{form.image2}}
-            </div>
-            <div class="form-field">
-                <h6>Image</h6>
-                {{form.image3}}
-            </div>
+                    </select>
 
-            <div class="form-field">
-                <h6>Seller</h6>
-                {{form.seller}}
-            </div>
-            <div>
+                </div>
+
+                <div class="form-field">
+                    <h6>Main Image</h6>
+                    <input type="file" name="image">
+                </div>
+                <div class=" form-field">
+                    <h6>Image</h6>
+                    <input type="file" name="image1">
+                </div>
+
+                <div class=" form-field">
+                    <h6>Image</h6>
+                    <input type="file" name="image2">
+                </div>
+                <div class=" form-field">
+                    <h6>Image</h6>
+                    <input type="file" name="image3">
+                </div>
+
+                <div class=" form-field">
+                    <h6>Seller</h6>
+                    <input type="text" name="seller" value="{{product.seller}}">
+                </div>
+
                 <div class="form-field">
                     <h6>Distance</h6>
-                    {{form.distance}}
+                    <input required type="text" name="distance" value="{{product.distance}}">
                 </div>
                 <div class="form-field">
                     <h6>In Stock</h6>
-                    {{form.stock}}
+                    <input required type="text" name="stock" value="{{product.stock}}">
                 </div>
                 <div class="form-field">
                     <h6>Color</h6>
-                    {{form.color}}
+                    <input required type="text" name="color" value="{{product.color}}">
                 </div>
 
                 <div class="form-field">
                     <h6>Size</h6>
-                    {{form.size}}
+                    <input required type="text" name="size" value="{{product.size}}">
                 </div>
                 <div class="form-field">
                     <h6>Search Tags</h6>
-                    {{form.search_tags}}
+                    <input required type="text" name="search_tags" value="{{product.search_tags}}">
                 </div>
 
                 <div style="display:inline-block;" class="description">
                     <div class="form-field">
                         <h6>Description</h6>
-                        {{form.description}}
+                        <input required type="text" name="description" value="{{product.description}}">
                     </div>
                 </div>
 
-            </div>
-            <hr>
-            <input id="form-button" type="submit" value="Add Product" class="btn btn-success btn-block">
+        </div>
+        <hr>
+        <input id="form-button" type="submit" value="Update Product" class="btn btn-success btn-block">
 
         </form>
 
+    </div>
+
+    <div class="col-lg-5">
+        <div class="box-element" style="float: right;">
+            <img class="thumbnail-each" src="{{product.imageUrl}}">
+        </div>
+        <div class="images-each-extras">
+
+            <img class="thumbnail-each-extras" src="{{product.image1.url}}">
+            <img class="thumbnail-each-extras" src="{{product.image2.url}}">
+            <img class="thumbnail-each-extras" src="{{product.image3.url}}">
+
+        </div>
+
+
+        <!-- </div> -->
     </div>
 </div>
 
